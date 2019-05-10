@@ -1,18 +1,24 @@
-
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
+import org.apache.spark
+import org.apache.spark.sql._
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types._
 
 
 object BDA_Project extends App {
-  import org.apache.spark.SparkContext
-import org.apache.spark.SparkConf
+  val spark = SparkSession.builder.config("spark.master", "local[2]").getOrCreate()
 
-val conf = new SparkConf().setAppName("myApp").setMaster("local")
+  val df = spark.read.option("sep", "\t").option("header", "true").csv("dataset/title.basics.tsv")
+  df.createOrReplaceTempView("titles")
 
-val sc: SparkContext = new SparkContext(conf)
-
-val data = List("this", "is", "a", "test")
-val distData = sc.parallelize(data)
-
-distData.take(2).foreach(println)
-
+  println(df.columns.size)
+  println(df.count())
+  val df_new = df.filter("titleType == \"movie\"")
+  val df3 = df_new.drop(["titleType","originalTitle"])
+  println(df3.count())
+  println(df3.columns.size)
 
 }
