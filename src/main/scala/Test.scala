@@ -23,4 +23,10 @@ object BDA_Project extends App {
   println(df3.count())
   println(df3.columns.size)
 
+  // TODO 1 THIBAUT Look for the rating of each movie. Create a new dataframe with the name of the movie and it's rating
+
+  // TODO 2 JOHN Look for each film's director(s) information is store in title.crew. try to append directos name to dataframe
+
+  // TODO 3 PEDRO split genres into n columns, n beeing the maximum number of genre a movie can have
+
 }
