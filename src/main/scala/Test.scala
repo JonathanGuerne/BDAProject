@@ -16,8 +16,10 @@ object BDA_Project extends App {
 
   println(df.columns.size)
   println(df.count())
+
   val df_new = df.filter("titleType == \"movie\"")
-  val df3 = df_new.drop(["titleType","originalTitle"])
+  val df3 = df_new.drop("titleType").drop("originalTitle").drop("endYear")
+
   println(df3.count())
   println(df3.columns.size)
 
