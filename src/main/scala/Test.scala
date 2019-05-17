@@ -8,6 +8,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 
 
+
 object BDA_Project extends App {
 
   val spark = SparkSession.builder.config("spark.master", "local[2]").getOrCreate()
@@ -25,7 +26,22 @@ object BDA_Project extends App {
   println(df3.count())
   println(df3.columns.size)
 
+
+
   // TODO 1 THIBAUT Look for the rating of each movie. Create a new dataframe with the name of the movie and it's rating
+
+  val all_films_ids = df3.collect().map(r => r.get(0))
+
+  val df_ratings = spark.read.option("sep", "\t").option("header","true").csv("dataset/title.ratings.tsv")
+
+  val df_label = df_ratings.drop("numVotes")
+
+
+  println(df_ratings.count())
+
+  val df_global=df3.join(df_ratings, df_ratings("tconst")===df3("tconst")).drop(df_ratings("tconst"))
+
+  df_global.printSchema()
 
   // TODO 2 JOHN Look for each film's director(s) information is store in title.crew. try to append directos name to dataframe
 
@@ -36,7 +52,6 @@ object BDA_Project extends App {
   println(df_crew.count())
 
   // inner join to remove unwanted ids
-  val all_films_ids = df3.collect().map(r => r.get(0))
   val df_crew_movie = df_crew.filter($"tconst".isin(all_films_ids: _*))
 
   println(df_crew_movie.count())
