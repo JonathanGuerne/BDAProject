@@ -51,5 +51,3 @@ Nous souhaitions savoir combien de genres possibles au plus il y avait par films
 Nous avons donc du spliter le contenu de la colonne `genres`. Nous avons pu voir qu'après cette étape, il y avait au plus 3 genres par films. 
 
 Nous avons donc affiché le nombre de films ayant respectivement, un, deux et trois genres.
-
-![](../Stats/number_of_gender.png)
