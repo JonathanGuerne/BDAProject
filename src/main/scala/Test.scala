@@ -8,20 +8,28 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 
 
+case class Record(genres: String)
+
 object BDA_Project extends App {
   val spark = SparkSession.builder.config("spark.master", "local[2]").getOrCreate()
+
+  import spark.implicits._
 
   val df = spark.read.option("sep", "\t").option("header", "true").csv("dataset/title.basics.tsv")
   df.createOrReplaceTempView("titles")
 
-  println(df.columns.size)
-  println(df.count())
-
   val df_new = df.filter("titleType == \"movie\"")
   val df3 = df_new.drop("titleType").drop("originalTitle").drop("endYear")
 
-  println(df3.count())
-  println(df3.columns.size)
+  val parse_genres: Column => Column = x => { split(x, ",") }
+
+  val df_genres = df3.withColumn("genres", parse_genres($"genres")).select(
+    $"genres".getItem(0).as("genre1"),
+    $"genres".getItem(1).as("genre2"),
+    $"genres".getItem(2).as("genre3")
+  )
+
+  df_genres.show(30, false)
 
   // TODO 1 THIBAUT Look for the rating of each movie. Create a new dataframe with the name of the movie and it's rating
 
