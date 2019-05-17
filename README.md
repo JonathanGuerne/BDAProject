@@ -52,3 +52,4 @@ Nous avons donc du spliter le contenu de la colonne `genres`. Nous avons pu voir
 
 Nous avons donc affiché le nombre de films ayant respectivement, un, deux et trois genres.
 
+![](../Stats/number_of_gender.png)
