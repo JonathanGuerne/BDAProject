@@ -32,6 +32,8 @@ Nous allons premièrement utiliser les fichiers suivants :
 * title.ratings.tsv qui contient 931'150 entrées.
 * title.crew.tsv qui contient 5'844'238 entrées.
 
+A noter toutes fois que ces nombres d'entrée correspondes à tous les types de contenu que répertorie cette base de données. En plus des films, le point d'intérêt de ce projet, on a par exemple les séries. Il a donc fallu sélectionner uniquement les entrée liées à des films.
+
 Afin d'assembler ces trois fichiers, nous avons réalisé des joins.
 
 - Premièrement en joignant basic et ratings qui retourne un dataframe de 233'473 entrées (dataframe contenant encore des nulls).
