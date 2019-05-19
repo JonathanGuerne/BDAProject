@@ -44,7 +44,7 @@ Nous avons désormais un dataframe propre et prêt à être pré-processé.
 
 Nous avons du cependant auparavant faire quelques choix sur quelles caractéristiques garder. Nous avons donc fait quelques statistiques. 
 
-__Schéma du datafrane obtenu__
+__Schéma du dataframe obtenu__
 
 ```
 root
