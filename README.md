@@ -46,6 +46,28 @@ Nous avons du cependant auparavant faire quelques choix sur quelles caractérist
 
 __Schéma du datafrane obtenu__
 
+```
+root
+ |-- primaryTitle: string (nullable = true)
+ |-- isAdult: string (nullable = true)
+ |-- startYear: string (nullable = true)
+ |-- runtimeMinutes: string (nullable = true)
+ |-- averageRating: string (nullable = true)
+ |-- tconst: string (nullable = true)
+ |-- director1: string (nullable = true)
+ |-- director2: string (nullable = false)
+ |-- director3: string (nullable = false)
+ |-- director4: string (nullable = false)
+ |-- writer1: string (nullable = true)
+ |-- writer2: string (nullable = false)
+ |-- writer3: string (nullable = false)
+ |-- writer4: string (nullable = false)
+ |-- writer5: string (nullable = false)
+ |-- genre1: string (nullable = true)
+ |-- genre2: string (nullable = false)
+ |-- genre3: string (nullable = false)
+```
+
 __Les genres__
 
 Nous souhaitions savoir combien de genres possibles au plus il y avait par films.
@@ -53,6 +75,8 @@ Nous souhaitions savoir combien de genres possibles au plus il y avait par films
 Nous avons donc du spliter le contenu de la colonne `genres`. Nous avons pu voir qu'après cette étape, il y avait au plus 3 genres par films. 
 
 Nous avons donc affiché le nombre de films ayant respectivement, un, deux et trois genres.
+
+![](images/number_of_gender.png)
 
 __Les réalisateurs & scénaristes__
 
