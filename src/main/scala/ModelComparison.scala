@@ -4,10 +4,14 @@ import org.apache.spark.ml.regression.GeneralizedLinearRegression
 import org.apache.spark.ml.regression.RandomForestRegressor
 import org.apache.spark.ml.regression.DecisionTreeRegressor
 import org.apache.spark.ml.regression.{GBTRegressionModel, GBTRegressor}
-import org.apache.spark.ml.feature.RFormula
+import org.apache.spark.ml.feature.{RFormula, VectorAssembler}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.tuning.{ParamGridBuilder, TrainValidationSplit}
 import org.apache.spark.ml.evaluation.RegressionEvaluator
+import org.apache.spark.ml.regression.AFTSurvivalRegression
+import org.apache.spark.ml.clustering.{KMeans, KMeansModel}
+import org.apache.spark.ml.evaluation.ClusteringEvaluator
+
 
 object ModelComparison extends App {
 
@@ -115,45 +119,76 @@ object ModelComparison extends App {
     .build()
 
 
+
+
+
   //evaluation
-  val evaluator = new RegressionEvaluator()
-    .setMetricName("r2")
-    .setPredictionCol("prediction")
-    .setLabelCol("label")
+    val evaluator = new RegressionEvaluator()
+      .setMetricName("r2")
+      .setPredictionCol("prediction")
+      .setLabelCol("label")
 
-  val models_arr = List(
-    ("Linear Regression", params_lr, pipeline_lr),
-    ("Generalized Linear Regression", params_glr, pipeline_glr),
-    ("Decision Tree Regression", params_dt, pipeline_dt),
-    ("Random Forest Regression", params_rf, pipeline_rf),
-    ("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt))
+    val models_arr = List(
+      ("Linear Regression", params_lr, pipeline_lr),
+      ("Generalized Linear Regression", params_glr, pipeline_glr),
+      ("Decision Tree Regression", params_dt, pipeline_dt),
+      ("Random Forest Regression", params_rf, pipeline_rf),
+      ("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt))
 
-  for (el <- models_arr) {
+    for (el <- models_arr) {
 
-    //model selection
-    val tvs = new TrainValidationSplit()
-      .setTrainRatio(0.75) // also the default.
-      .setEstimatorParamMaps(el._2)
-      .setEstimator(el._3)
-      .setEvaluator(evaluator)
+      //model selection
+      val tvs = new TrainValidationSplit()
+        .setTrainRatio(0.75) // also the default.
+        .setEstimatorParamMaps(el._2)
+        .setEstimator(el._3)
+        .setEvaluator(evaluator)
 
-    //running the pipeline
-    val tvsFitted = tvs.fit(train)
+      //running the pipeline
+      val tvsFitted = tvs.fit(train)
 
-    //evaluating on the test set
-    val testTransformed = tvsFitted.transform(test)
-    val result = evaluator.evaluate(testTransformed)
+      //evaluating on the test set
+      val testTransformed = tvsFitted.transform(test)
+      val result = evaluator.evaluate(testTransformed)
 
-    println(el._1 + " evaluation result : " + result)
-  }
+      println(el._1 + " evaluation result : " + result)
+    }
 
 
   // https://spark.apache.org/docs/2.4.3/ml-classification-regression.html
 
 
-  // TODO thibaut setup a survival regression
-
   // TODO john setup an isontonic regression
 
   // https://spark.apache.org/docs/2.4.3/ml-clustering.html#latent-dirichlet-allocation-lda
+
+
+  val assembler = new VectorAssembler()
+    .setInputCols(Array("value1", "value2"))
+    .setOutputCol("features")
+
+  val df_ = assembler.transform(train)
+    .select("features")
+
+
+  //Trains a k-means model.
+  val kmeans = new KMeans().setFeaturesCol("features").setK(2).setSeed(1L)
+  val model = kmeans.fit(df_)
+
+  // Make predictions
+  val predictions = model.transform(df_)
+
+  //  Evaluate clustering by computing Silhouette score
+  val evaluatorCluster = new ClusteringEvaluator()
+
+  val silhouette = evaluatorCluster.evaluate(predictions)
+  println(s"Silhouette with squared euclidean distance = $silhouette")
+
+  // Shows the result.
+  println("Cluster Centers: ")
+  model.clusterCenters.foreach(println)
+
+
+  predictions.show(200)
+
 }
