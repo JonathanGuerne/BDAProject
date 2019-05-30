@@ -81,7 +81,7 @@ object DataExtraction extends App {
   val parse_string: Column => Column = x => {
     split(x, ",")
   }
-
+  
   var df_directors = df_crew_movie
     .withColumn("directors", parse_string($"directors"))
     .select(

@@ -1,16 +1,10 @@
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.ml.regression.LinearRegression
-import org.apache.spark.ml.regression.GeneralizedLinearRegression
-import org.apache.spark.ml.regression.RandomForestRegressor
-import org.apache.spark.ml.regression.DecisionTreeRegressor
-import org.apache.spark.ml.regression.{GBTRegressionModel, GBTRegressor}
-import org.apache.spark.ml.feature.{RFormula, VectorAssembler}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.clustering.KMeans
+import org.apache.spark.ml.evaluation.{ClusteringEvaluator, RegressionEvaluator}
+import org.apache.spark.ml.feature.{PCA, RFormula, VectorAssembler}
+import org.apache.spark.ml.regression.{DecisionTreeRegressor, GBTRegressor, GeneralizedLinearRegression, LinearRegression, RandomForestRegressor, _}
 import org.apache.spark.ml.tuning.{ParamGridBuilder, TrainValidationSplit}
-import org.apache.spark.ml.evaluation.RegressionEvaluator
-import org.apache.spark.ml.regression.AFTSurvivalRegression
-import org.apache.spark.ml.clustering.{KMeans, KMeansModel}
-import org.apache.spark.ml.evaluation.ClusteringEvaluator
+import org.apache.spark.sql.SparkSession
 
 
 object ModelComparison extends App {
@@ -23,10 +17,31 @@ object ModelComparison extends App {
     .appName("Spark MLlib basic example")
     .getOrCreate()
 
-
   //reading data and splitting to train and test
   val df = spark.read.json("dataset/test.json")
   val Array(train, test) = df.randomSplit(Array(0.7, 0.3))
+
+
+
+  train.show()
+  val assembler = new VectorAssembler()
+    .setInputCols(Array("value1","value2"))
+    .setOutputCol("features")
+
+  val df_ = assembler.transform(train)
+    .select("features")
+
+  df_.show()
+
+  // PCA (2)
+  val pca = new PCA()
+    .setInputCol("features")
+    .setOutputCol("pcaFeatures")
+    .setK(2)
+    .fit(df_)
+
+  val result = pca.transform(df_).select("pcaFeatures")
+  result.show(false)
 
   // TODO john linear regression
   //creating estimators
@@ -118,8 +133,24 @@ object ModelComparison extends App {
     .addGrid(gbt.maxDepth, Array(10, 25))
     .build()
 
+  // TODO thibaut setup a survival regression
 
+  // TODO john setup an isontonic regression
+  //creating estimators
+  val rForm_iso = new RFormula()
+  val iso = new IsotonicRegression().setLabelCol("label").setFeaturesCol("features")
 
+  // making them as pipeline stages
+  val stages_iso = Array(rForm_iso, iso)
+  val pipeline_iso = new Pipeline().setStages(stages_iso)
+
+  //training
+  val params_iso = new ParamGridBuilder()
+    .addGrid(rForm_iso.formula, Array(
+      "lab ~ . + color:value1")) //,
+    //      "lab ~ . + color:value1 + color:value2"))
+    .addGrid(iso.isotonic, Array(true, false))
+    .build()
 
 
   //evaluation
@@ -128,12 +159,13 @@ object ModelComparison extends App {
       .setPredictionCol("prediction")
       .setLabelCol("label")
 
-    val models_arr = List(
-      ("Linear Regression", params_lr, pipeline_lr),
-      ("Generalized Linear Regression", params_glr, pipeline_glr),
-      ("Decision Tree Regression", params_dt, pipeline_dt),
-      ("Random Forest Regression", params_rf, pipeline_rf),
-      ("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt))
+  val models_arr = List(
+    ("Linear Regression", params_lr, pipeline_lr),
+    ("Generalized Linear Regression", params_glr, pipeline_glr),
+    ("Decision Tree Regression", params_dt, pipeline_dt),
+    ("Random Forest Regression", params_rf, pipeline_rf),
+    ("Isotonic Regression", params_iso, pipeline_iso),
+    ("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt))
 
     for (el <- models_arr) {
 
@@ -143,6 +175,7 @@ object ModelComparison extends App {
         .setEstimatorParamMaps(el._2)
         .setEstimator(el._3)
         .setEvaluator(evaluator)
+
 
       //running the pipeline
       val tvsFitted = tvs.fit(train)
@@ -158,25 +191,23 @@ object ModelComparison extends App {
   // https://spark.apache.org/docs/2.4.3/ml-classification-regression.html
 
 
-  // TODO john setup an isontonic regression
-
   // https://spark.apache.org/docs/2.4.3/ml-clustering.html#latent-dirichlet-allocation-lda
 
 
-  val assembler = new VectorAssembler()
+  val cl_assembler = new VectorAssembler()
     .setInputCols(Array("value1", "value2"))
     .setOutputCol("features")
 
-  val df_ = assembler.transform(train)
+  val cl_df_ = cl_assembler.transform(train)
     .select("features")
 
 
   //Trains a k-means model.
   val kmeans = new KMeans().setFeaturesCol("features").setK(2).setSeed(1L)
-  val model = kmeans.fit(df_)
+  val model = kmeans.fit(cl_df_)
 
   // Make predictions
-  val predictions = model.transform(df_)
+  val predictions = model.transform(cl_df_)
 
   //  Evaluate clustering by computing Silhouette score
   val evaluatorCluster = new ClusteringEvaluator()
