@@ -7,13 +7,188 @@
 		revision="0.1"
 		conf="test"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20190510111158"/>
+		date="20190524094559"/>
 	<dependencies>
+		<module organisation="org.apache.spark" name="spark-mllib_2.12">
+			<revision name="2.4.0" status="release" pubdate="20181029090016" resolver="public" artresolver="public" homepage="http://spark.apache.org/" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="158">
+				<license name="Apache 2.0 License" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="successful" details="" size="10131" time="72" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-mllib_2.12/ivy-2.4.0.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-mllib_2.12/ivy-2.4.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/spark/spark-mllib_2.12/2.4.0/spark-mllib_2.12-2.4.0.pom"/>
+				<caller organisation="default" name="bdaproject_2.12" conf="test, compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="0.1"/>
+				<artifacts>
+					<artifact name="spark-mllib_2.12" type="jar" ext="jar" status="successful" details="" size="5314011" time="5375" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-mllib_2.12/jars/spark-mllib_2.12-2.4.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/spark/spark-mllib_2.12/2.4.0/spark-mllib_2.12-2.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.spark" name="spark-graphx_2.12">
+			<revision name="2.4.0" status="release" pubdate="20181029085654" resolver="public" artresolver="public" homepage="http://spark.apache.org/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="160">
+				<license name="Apache 2.0 License" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="successful" details="" size="7131" time="73" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-graphx_2.12/ivy-2.4.0.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-graphx_2.12/ivy-2.4.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/spark/spark-graphx_2.12/2.4.0/spark-graphx_2.12-2.4.0.pom"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<artifacts>
+					<artifact name="spark-graphx_2.12" type="jar" ext="jar" status="successful" details="" size="430023" time="410" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-graphx_2.12/jars/spark-graphx_2.12-2.4.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/spark/spark-graphx_2.12/2.4.0/spark-graphx_2.12-2.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.spark" name="spark-mllib-local_2.12">
+			<revision name="2.4.0" status="release" pubdate="20181029090120" resolver="public" artresolver="public" homepage="http://spark.apache.org/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="161">
+				<license name="Apache 2.0 License" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="successful" details="" size="4573" time="84" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-mllib-local_2.12/ivy-2.4.0.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-mllib-local_2.12/ivy-2.4.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/spark/spark-mllib-local_2.12/2.4.0/spark-mllib-local_2.12-2.4.0.pom"/>
+				<caller organisation="org.apache.spark" name="spark-graphx_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<artifacts>
+					<artifact name="spark-mllib-local_2.12" type="jar" ext="jar" status="successful" details="" size="101671" time="542" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-mllib-local_2.12/jars/spark-mllib-local_2.12-2.4.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/spark/spark-mllib-local_2.12/2.4.0/spark-mllib-local_2.12-2.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalanlp" name="breeze_2.12">
+			<revision name="0.13.2" status="release" pubdate="20170801060730" resolver="public" artresolver="public" homepage="http://scalanlp.org/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="162">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="successful" details="" size="4452" time="81" location="/home/thibaut/.ivy2/cache/org.scalanlp/breeze_2.12/ivy-0.13.2.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.scalanlp/breeze_2.12/ivy-0.13.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scalanlp/breeze_2.12/0.13.2/breeze_2.12-0.13.2.pom"/>
+				<caller organisation="org.apache.spark" name="spark-mllib-local_2.12" conf="compile, runtime" rev="0.13.2" rev-constraint-default="0.13.2" rev-constraint-dynamic="0.13.2" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="0.13.2" rev-constraint-default="0.13.2" rev-constraint-dynamic="0.13.2" callerrev="2.4.0"/>
+				<artifacts>
+					<artifact name="breeze_2.12" type="jar" ext="jar" status="successful" details="" size="13319481" time="6766" location="/home/thibaut/.ivy2/cache/org.scalanlp/breeze_2.12/jars/breeze_2.12-0.13.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scalanlp/breeze_2.12/0.13.2/breeze_2.12-0.13.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.spire-math" name="spire_2.12">
+			<revision name="0.13.0" status="release" pubdate="20161129053252" resolver="public" artresolver="public" homepage="http://spire-math.org" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="168">
+				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
+				<metadata-artifact status="successful" details="" size="2112" time="61" location="/home/thibaut/.ivy2/cache/org.spire-math/spire_2.12/ivy-0.13.0.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.spire-math/spire_2.12/ivy-0.13.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/spire-math/spire_2.12/0.13.0/spire_2.12-0.13.0.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="0.13.0" rev-constraint-default="0.13.0" rev-constraint-dynamic="0.13.0" callerrev="0.13.2"/>
+				<artifacts>
+					<artifact name="spire_2.12" type="jar" ext="jar" status="successful" details="" size="9660469" time="6446" location="/home/thibaut/.ivy2/cache/org.spire-math/spire_2.12/jars/spire_2.12-0.13.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/spire-math/spire_2.12/0.13.0/spire_2.12-0.13.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.spire-math" name="spire-macros_2.12">
+			<revision name="0.13.0" status="release" pubdate="20161129053152" resolver="public" artresolver="public" homepage="http://spire-math.org" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="169">
+				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
+				<metadata-artifact status="successful" details="" size="2569" time="63" location="/home/thibaut/.ivy2/cache/org.spire-math/spire-macros_2.12/ivy-0.13.0.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.spire-math/spire-macros_2.12/ivy-0.13.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/spire-math/spire-macros_2.12/0.13.0/spire-macros_2.12-0.13.0.pom"/>
+				<caller organisation="org.spire-math" name="spire_2.12" conf="compile, runtime" rev="0.13.0" rev-constraint-default="0.13.0" rev-constraint-dynamic="0.13.0" callerrev="0.13.0"/>
+				<artifacts>
+					<artifact name="spire-macros_2.12" type="jar" ext="jar" status="successful" details="" size="69702" time="142" location="/home/thibaut/.ivy2/cache/org.spire-math/spire-macros_2.12/jars/spire-macros_2.12-0.13.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/spire-math/spire-macros_2.12/0.13.0/spire-macros_2.12-0.13.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.chuusai" name="shapeless_2.12">
+			<revision name="2.3.2" status="release" pubdate="20161102105049" resolver="public" artresolver="public" homepage="https://github.com/milessabin/shapeless" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="171">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="2286" time="64" location="/home/thibaut/.ivy2/cache/com.chuusai/shapeless_2.12/ivy-2.3.2.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/com.chuusai/shapeless_2.12/ivy-2.3.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/chuusai/shapeless_2.12/2.3.2/shapeless_2.12-2.3.2.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="2.3.2" rev-constraint-default="2.3.2" rev-constraint-dynamic="2.3.2" callerrev="0.13.2"/>
+				<artifacts>
+					<artifact name="shapeless_2.12" type="bundle" ext="jar" status="successful" details="" size="2829843" time="1812" location="/home/thibaut/.ivy2/cache/com.chuusai/shapeless_2.12/bundles/shapeless_2.12-2.3.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/chuusai/shapeless_2.12/2.3.2/shapeless_2.12-2.3.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.typelevel" name="macro-compat_2.12">
+			<revision name="1.1.1" status="release" pubdate="20161102094258" resolver="public" artresolver="public" homepage="https://github.com/milessabin/macro-compat" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="172">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="1915" time="72" location="/home/thibaut/.ivy2/cache/org.typelevel/macro-compat_2.12/ivy-1.1.1.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.typelevel/macro-compat_2.12/ivy-1.1.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.pom"/>
+				<caller organisation="com.chuusai" name="shapeless_2.12" conf="compile, runtime" rev="1.1.1" rev-constraint-default="1.1.1" rev-constraint-dynamic="1.1.1" callerrev="2.3.2"/>
+				<artifacts>
+					<artifact name="macro-compat_2.12" type="jar" ext="jar" status="successful" details="" size="3180" time="115" location="/home/thibaut/.ivy2/cache/org.typelevel/macro-compat_2.12/jars/macro-compat_2.12-1.1.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/macro-compat_2.12/1.1.1/macro-compat_2.12-1.1.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.typelevel" name="machinist_2.12">
+			<revision name="0.6.1" status="release" pubdate="20161029171418" resolver="public" artresolver="public" homepage="http://github.com/typelevel/machinist" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="170">
+				<license name="MIT" url="http://opensource.org/licenses/MIT"/>
+				<metadata-artifact status="successful" details="" size="1780" time="84" location="/home/thibaut/.ivy2/cache/org.typelevel/machinist_2.12/ivy-0.6.1.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.typelevel/machinist_2.12/ivy-0.6.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/typelevel/machinist_2.12/0.6.1/machinist_2.12-0.6.1.pom"/>
+				<caller organisation="org.spire-math" name="spire_2.12" conf="compile, runtime" rev="0.6.1" rev-constraint-default="0.6.1" rev-constraint-dynamic="0.6.1" callerrev="0.13.0"/>
+				<caller organisation="org.spire-math" name="spire-macros_2.12" conf="compile, runtime" rev="0.6.1" rev-constraint-default="0.6.1" rev-constraint-dynamic="0.6.1" callerrev="0.13.0"/>
+				<artifacts>
+					<artifact name="machinist_2.12" type="jar" ext="jar" status="successful" details="" size="33650" time="128" location="/home/thibaut/.ivy2/cache/org.typelevel/machinist_2.12/jars/machinist_2.12-0.6.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/typelevel/machinist_2.12/0.6.1/machinist_2.12-0.6.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.rwl" name="jtransforms">
+			<revision name="2.4.0" status="release" pubdate="20120519160656" resolver="public" artresolver="public" homepage="http://sourceforge.net/projects/jtransforms/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="167">
+				<license name="MPL" url="http://www.mozilla.org/MPL/2.0/index.txt"/>
+				<license name="LGPL" url="http://www.gnu.org/licenses/lgpl-2.1.txt"/>
+				<license name="GPL" url="http://www.gnu.org/licenses/gpl-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="2817" time="60" location="/home/thibaut/.ivy2/cache/com.github.rwl/jtransforms/ivy-2.4.0.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/com.github.rwl/jtransforms/ivy-2.4.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/rwl/jtransforms/2.4.0/jtransforms-2.4.0.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="0.13.2"/>
+				<artifacts>
+					<artifact name="jtransforms" type="jar" ext="jar" status="successful" details="" size="764569" time="561" location="/home/thibaut/.ivy2/cache/com.github.rwl/jtransforms/jars/jtransforms-2.4.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/rwl/jtransforms/2.4.0/jtransforms-2.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="net.sf.opencsv" name="opencsv">
+			<revision name="2.3" status="release" pubdate="20110728070018" resolver="public" artresolver="public" homepage="http://opencsv.sf.net" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="166">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
+				<metadata-artifact status="successful" details="" size="5445" time="63" location="/home/thibaut/.ivy2/cache/net.sf.opencsv/opencsv/ivy-2.3.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/net.sf.opencsv/opencsv/ivy-2.3.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sf/opencsv/opencsv/2.3/opencsv-2.3.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="2.3" rev-constraint-default="2.3" rev-constraint-dynamic="2.3" callerrev="0.13.2"/>
+				<artifacts>
+					<artifact name="opencsv" type="jar" ext="jar" status="successful" details="" size="19827" time="100" location="/home/thibaut/.ivy2/cache/net.sf.opencsv/opencsv/jars/opencsv-2.3.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sf/opencsv/opencsv/2.3/opencsv-2.3.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="com.github.fommil.netlib" name="core">
+			<revision name="1.1.2" status="release" pubdate="20131126125411" resolver="public" artresolver="public" homepage="" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="164">
+				<license name="BSD 3 Clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
+				<metadata-artifact status="successful" details="" size="5427" time="65" location="/home/thibaut/.ivy2/cache/com.github.fommil.netlib/core/ivy-1.1.2.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/com.github.fommil.netlib/core/ivy-1.1.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/com/github/fommil/netlib/core/1.1.2/core-1.1.2.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="1.1.2" rev-constraint-default="1.1.2" rev-constraint-dynamic="1.1.2" callerrev="0.13.2"/>
+				<caller organisation="org.apache.spark" name="spark-graphx_2.12" conf="compile, runtime" rev="1.1.2" rev-constraint-default="1.1.2" rev-constraint-dynamic="1.1.2" callerrev="2.4.0"/>
+				<artifacts>
+					<artifact name="core" type="jar" ext="jar" status="successful" details="" size="164422" time="372" location="/home/thibaut/.ivy2/cache/com.github.fommil.netlib/core/jars/core-1.1.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/com/github/fommil/netlib/core/1.1.2/core-1.1.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scalanlp" name="breeze-macros_2.12">
+			<revision name="0.13.2" status="release" pubdate="20170801060453" resolver="public" artresolver="public" homepage="http://scalanlp.org/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="163">
+				<license name="Apache 2" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="successful" details="" size="2182" time="62" location="/home/thibaut/.ivy2/cache/org.scalanlp/breeze-macros_2.12/ivy-0.13.2.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.scalanlp/breeze-macros_2.12/ivy-0.13.2.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scalanlp/breeze-macros_2.12/0.13.2/breeze-macros_2.12-0.13.2.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="0.13.2" rev-constraint-default="0.13.2" rev-constraint-dynamic="0.13.2" callerrev="0.13.2"/>
+				<artifacts>
+					<artifact name="breeze-macros_2.12" type="jar" ext="jar" status="successful" details="" size="125330" time="152" location="/home/thibaut/.ivy2/cache/org.scalanlp/breeze-macros_2.12/jars/breeze-macros_2.12-0.13.2.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scalanlp/breeze-macros_2.12/0.13.2/breeze-macros_2.12-0.13.2.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.apache.spark" name="spark-streaming_2.12">
+			<revision name="2.4.0" status="release" pubdate="20181029090234" resolver="public" artresolver="public" homepage="http://spark.apache.org/" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="159">
+				<license name="Apache 2.0 License" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
+				<metadata-artifact status="successful" details="" size="9889" time="65" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-streaming_2.12/ivy-2.4.0.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-streaming_2.12/ivy-2.4.0.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/spark/spark-streaming_2.12/2.4.0/spark-streaming_2.12-2.4.0.pom"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<artifacts>
+					<artifact name="spark-streaming_2.12" type="jar" ext="jar" status="successful" details="" size="1159597" time="622" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-streaming_2.12/jars/spark-streaming_2.12-2.4.0.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/spark/spark-streaming_2.12/2.4.0/spark-streaming_2.12-2.4.0.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="org.apache.spark" name="spark-sql_2.12">
-			<revision name="2.4.0" status="release" pubdate="20181029085930" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://spark.apache.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="130">
+			<revision name="2.4.0" status="release" pubdate="20181029085930" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://spark.apache.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="130">
 				<license name="Apache 2.0 License" url="http://www.apache.org/licenses/LICENSE-2.0.html"/>
 				<metadata-artifact status="no" details="" size="84293" time="0" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-sql_2.12/ivy-2.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/spark/spark-sql_2.12/2.4.0/spark-sql_2.12-2.4.0.pom"/>
 				<caller organisation="default" name="bdaproject_2.12" conf="test, compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="0.1"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
 				<artifacts>
 					<artifact name="spark-sql_2.12" type="jar" ext="jar" status="no" details="" size="5775436" time="0" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-sql_2.12/jars/spark-sql_2.12-2.4.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/spark/spark-sql_2.12/2.4.0/spark-sql_2.12-2.4.0.jar"/>
@@ -99,6 +274,7 @@
 				<license name="MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
 				<metadata-artifact status="no" details="" size="5377" time="0" location="/home/thibaut/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.25.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.pom"/>
 				<caller organisation="org.apache.orc" name="orc-core" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="1.5.2"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="0.13.2"/>
 				<caller organisation="org.apache.arrow" name="arrow-memory" conf="compile, runtime" rev="1.7.25" rev-constraint-default="1.7.25" rev-constraint-dynamic="1.7.25" callerrev="0.10.0"/>
 				<caller organisation="org.slf4j" name="jul-to-slf4j" conf="compile, runtime" rev="1.7.16" rev-constraint-default="1.7.16" rev-constraint-dynamic="1.7.16" callerrev="1.7.16"/>
 				<caller organisation="org.apache.hadoop" name="hadoop-common" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="2.6.5"/>
@@ -176,8 +352,9 @@
 			<revision name="1.7.16" status="release" pubdate="20160211212603" resolver="sbt-chain" artresolver="sbt-chain" evicted="latest-revision" evicted-reason="" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
 				<license name="MIT License" url="http://www.opensource.org/licenses/mit-license.php"/>
 				<metadata-artifact status="no" details="" size="5199" time="0" location="/home/thibaut/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.16.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.16/slf4j-api-1.7.16.pom"/>
-				<evicted-by rev="1.7.22"/>
+				<evicted-by rev="1.7.25"/>
 				<caller organisation="org.apache.orc" name="orc-core" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="1.5.2"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="0.13.2"/>
 				<caller organisation="org.slf4j" name="jul-to-slf4j" conf="compile, runtime" rev="1.7.16" rev-constraint-default="1.7.16" rev-constraint-dynamic="1.7.16" callerrev="1.7.16"/>
 				<caller organisation="org.apache.hadoop" name="hadoop-common" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="2.6.5"/>
 				<caller organisation="org.apache.avro" name="avro-ipc" conf="compile, runtime" rev="1.7.7" rev-constraint-default="1.7.7" rev-constraint-dynamic="1.7.7" callerrev="1.8.2"/>
@@ -271,6 +448,7 @@
 			<revision name="1.7.5" evicted="latest-revision" evicted-reason="" downloaded="false" searched="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="-1">
 				<evicted-by rev="1.7.25"/>
 				<caller organisation="org.apache.orc" name="orc-core" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="1.5.2"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="0.13.2"/>
 				<caller organisation="org.slf4j" name="jul-to-slf4j" conf="compile, runtime" rev="1.7.16" rev-constraint-default="1.7.16" rev-constraint-dynamic="1.7.16" callerrev="1.7.16"/>
 				<caller organisation="org.apache.hadoop" name="hadoop-common" conf="compile, runtime" rev="1.7.5" rev-constraint-default="1.7.5" rev-constraint-dynamic="1.7.5" callerrev="2.6.5"/>
 				<caller organisation="org.apache.avro" name="avro-ipc" conf="compile, runtime" rev="1.7.7" rev-constraint-default="1.7.7" rev-constraint-dynamic="1.7.7" callerrev="1.8.2"/>
@@ -611,6 +789,7 @@
 				<license name="BSD 3-clause" url="http://opensource.org/licenses/BSD-3-Clause"/>
 				<metadata-artifact status="no" details="" size="2929" time="0" location="/home/thibaut/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.12/ivy-1.1.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.12/1.1.0/scala-parser-combinators_2.12-1.1.0.pom"/>
 				<caller organisation="org.apache.spark" name="spark-catalyst_2.12" conf="compile, runtime" rev="1.1.0" rev-constraint-default="1.1.0" rev-constraint-dynamic="1.1.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="1.1.0" rev-constraint-default="1.1.0" rev-constraint-dynamic="1.1.0" callerrev="2.4.0"/>
 				<artifacts>
 					<artifact name="scala-parser-combinators_2.12" type="bundle" ext="jar" status="no" details="" size="225042" time="0" location="/home/thibaut/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.12/bundles/scala-parser-combinators_2.12-1.1.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.12/1.1.0/scala-parser-combinators_2.12-1.1.0.jar"/>
@@ -647,7 +826,9 @@
 			<revision name="2.12.8" status="release" pubdate="20181204111524" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.8/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="122">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="2828" time="0" location="/home/thibaut/.ivy2/cache/org.scala-lang/scala-reflect/ivy-2.12.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.12.8/scala-reflect-2.12.8.pom"/>
+				<caller organisation="org.typelevel" name="machinist_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.6.1"/>
 				<caller organisation="com.fasterxml.jackson.module" name="jackson-module-scala_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.6.7.1"/>
+				<caller organisation="org.scalanlp" name="breeze-macros_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.2"/>
 				<caller organisation="org.apache.spark" name="spark-catalyst_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.4.0"/>
 				<artifacts>
 					<artifact name="scala-reflect" type="jar" ext="jar" status="no" details="" size="3645095" time="0" location="/home/thibaut/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.12.8.jar">
@@ -662,7 +843,10 @@
 				<metadata-artifact status="no" details="" size="97621" time="0" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-core_2.12/ivy-2.4.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/spark/spark-core_2.12/2.4.0/spark-core_2.12-2.4.0.pom"/>
 				<caller organisation="org.apache.spark" name="spark-sql_2.12" conf="default, compile, runtime, master" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
 				<caller organisation="default" name="bdaproject_2.12" conf="test, compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="0.1"/>
+				<caller organisation="org.apache.spark" name="spark-graphx_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-catalyst_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-streaming_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
 				<artifacts>
 					<artifact name="spark-core_2.12" type="jar" ext="jar" status="no" details="" size="8662157" time="0" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-core_2.12/jars/spark-core_2.12-2.4.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/spark/spark-core_2.12/2.4.0/spark-core_2.12-2.4.0.jar"/>
@@ -1218,6 +1402,8 @@
 				<metadata-artifact status="no" details="" size="11263" time="0" location="/home/thibaut/.ivy2/cache/org.apache.commons/commons-math3/ivy-3.4.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/commons/commons-math3/3.4.1/commons-math3-3.4.1.pom"/>
 				<caller organisation="org.apache.spark" name="spark-core_2.12" conf="default, compile, runtime, master" rev="3.4.1" rev-constraint-default="3.4.1" rev-constraint-dynamic="3.4.1" callerrev="2.4.0"/>
 				<caller organisation="org.apache.hadoop" name="hadoop-common" conf="compile, runtime" rev="3.1.1" rev-constraint-default="3.1.1" rev-constraint-dynamic="3.1.1" callerrev="2.6.5"/>
+				<caller organisation="org.apache.spark" name="spark-mllib-local_2.12" conf="compile, runtime" rev="3.4.1" rev-constraint-default="3.4.1" rev-constraint-dynamic="3.4.1" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="3.4.1" rev-constraint-default="3.4.1" rev-constraint-dynamic="3.4.1" callerrev="2.4.0"/>
 				<artifacts>
 					<artifact name="commons-math3" type="jar" ext="jar" status="no" details="" size="2035066" time="0" location="/home/thibaut/.ivy2/cache/org.apache.commons/commons-math3/jars/commons-math3-3.4.1.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/commons/commons-math3/3.4.1/commons-math3-3.4.1.jar"/>
@@ -1443,7 +1629,11 @@
 				<caller organisation="org.apache.spark" name="spark-kvstore_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-launcher_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-unsafe_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib-local_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-graphx_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-catalyst_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-streaming_2.12" conf="compile, runtime" rev="2.4.0" rev-constraint-default="2.4.0" rev-constraint-dynamic="2.4.0" callerrev="2.4.0"/>
 				<artifacts>
 					<artifact name="spark-tags_2.12" type="jar" ext="jar" status="no" details="" size="15497" time="0" location="/home/thibaut/.ivy2/cache/org.apache.spark/spark-tags_2.12/jars/spark-tags_2.12-2.4.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/spark/spark-tags_2.12/2.4.0/spark-tags_2.12-2.4.0.jar"/>
@@ -1456,15 +1646,19 @@
 				<license name="The Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
 				<metadata-artifact status="no" details="" size="2975" time="0" location="/home/thibaut/.ivy2/cache/org.spark-project.spark/unused/ivy-1.0.0.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/spark-project/spark/unused/1.0.0/unused-1.0.0.pom"/>
 				<caller organisation="org.apache.spark" name="spark-network-common_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-sql_2.12" conf="default, compile, runtime, master" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-launcher_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib-local_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-graphx_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-catalyst_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-mllib_2.12" conf="default, compile, runtime, master" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-streaming_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-sketch_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-core_2.12" conf="default, compile, runtime, master" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
-				<caller organisation="org.apache.spark" name="spark-sql_2.12" conf="default, compile, runtime, master" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-kvstore_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
-				<caller organisation="org.apache.spark" name="spark-launcher_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-network-shuffle_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-unsafe_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-tags_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
-				<caller organisation="org.apache.spark" name="spark-catalyst_2.12" conf="compile, runtime" rev="1.0.0" rev-constraint-default="1.0.0" rev-constraint-dynamic="1.0.0" callerrev="2.4.0"/>
 				<artifacts>
 					<artifact name="unused" type="jar" ext="jar" status="no" details="" size="2777" time="0" location="/home/thibaut/.ivy2/cache/org.spark-project.spark/unused/jars/unused-1.0.0.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/spark-project/spark/unused/1.0.0/unused-1.0.0.jar"/>
@@ -2258,6 +2452,7 @@
 				<metadata-artifact status="no" details="" size="12229" time="0" location="/home/thibaut/.ivy2/cache/org.apache.xbean/xbean-asm6-shaded/ivy-4.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/apache/xbean/xbean-asm6-shaded/4.8/xbean-asm6-shaded-4.8.pom"/>
 				<caller organisation="org.apache.spark" name="spark-core_2.12" conf="default, compile, runtime, master" rev="4.8" rev-constraint-default="4.8" rev-constraint-dynamic="4.8" callerrev="2.4.0"/>
 				<caller organisation="org.apache.spark" name="spark-sql_2.12" conf="default, compile, runtime, master" rev="4.8" rev-constraint-default="4.8" rev-constraint-dynamic="4.8" callerrev="2.4.0"/>
+				<caller organisation="org.apache.spark" name="spark-graphx_2.12" conf="compile, runtime" rev="4.8" rev-constraint-default="4.8" rev-constraint-dynamic="4.8" callerrev="2.4.0"/>
 				<artifacts>
 					<artifact name="xbean-asm6-shaded" type="bundle" ext="jar" status="no" details="" size="282930" time="0" location="/home/thibaut/.ivy2/cache/org.apache.xbean/xbean-asm6-shaded/bundles/xbean-asm6-shaded-4.8.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/apache/xbean/xbean-asm6-shaded/4.8/xbean-asm6-shaded-4.8.jar"/>
@@ -2459,6 +2654,19 @@
 				</artifacts>
 			</revision>
 		</module>
+		<module organisation="net.sourceforge.f2j" name="arpack_combined_all">
+			<revision name="0.1" status="release" pubdate="20130709062740" resolver="public" artresolver="public" homepage="http://f2j.sourceforge.net" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="165">
+				<license name="The BSD License" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="successful" details="" size="1338" time="83" location="/home/thibaut/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/ivy-0.1.xml" searched="true" original-local-location="/home/thibaut/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/ivy-0.1.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sourceforge/f2j/arpack_combined_all/0.1/arpack_combined_all-0.1.pom"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="0.1" rev-constraint-default="0.1" rev-constraint-dynamic="0.1" callerrev="0.13.2"/>
+				<caller organisation="org.apache.spark" name="spark-graphx_2.12" conf="compile, runtime" rev="0.1" rev-constraint-default="0.1" rev-constraint-dynamic="0.1" callerrev="2.4.0"/>
+				<artifacts>
+					<artifact name="arpack_combined_all" type="jar" ext="jar" status="successful" details="" size="1194003" time="961" location="/home/thibaut/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/jars/arpack_combined_all-0.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sourceforge/f2j/arpack_combined_all/0.1/arpack_combined_all-0.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
 		<module organisation="javax.inject" name="javax.inject">
 			<revision name="1" status="release" pubdate="20091014013500" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://code.google.com/p/atinject/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="65">
 				<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt"/>
@@ -2513,18 +2721,26 @@
 			<revision name="2.12.8" status="release" pubdate="20181204111556" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.8/" downloaded="false" searched="false" default="false" conf="default, master(*), compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="0">
 				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
 				<metadata-artifact status="no" details="" size="2656" time="0" location="/home/thibaut/.ivy2/cache/org.scala-lang/scala-library/ivy-2.12.8.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.8/scala-library-2.12.8.pom"/>
+				<caller organisation="com.chuusai" name="shapeless_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.3.2"/>
 				<caller organisation="com.twitter" name="chill_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.9.3"/>
-				<caller organisation="com.fasterxml.jackson.module" name="jackson-module-scala_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.6.7.1"/>
-				<caller organisation="org.apache.spark" name="spark-core_2.12" conf="default, compile, runtime, master" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.4.0"/>
+				<caller organisation="org.typelevel" name="machinist_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.6.1"/>
+				<caller organisation="org.scalanlp" name="breeze_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.2"/>
 				<caller organisation="org.scala-lang" name="scala-reflect" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.12.8"/>
-				<caller organisation="org.apache.spark" name="spark-tags_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.4.0"/>
 				<caller organisation="org.json4s" name="json4s-core_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="3.5.3"/>
-				<caller organisation="org.json4s" name="json4s-ast_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="3.5.3"/>
 				<caller organisation="org.scala-lang.modules" name="scala-parser-combinators_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="1.1.0"/>
 				<caller organisation="org.json4s" name="json4s-jackson_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="3.5.3"/>
+				<caller organisation="org.scala-lang.modules" name="scala-xml_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="1.0.6"/>
+				<caller organisation="org.apache.spark" name="spark-streaming_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.4.0"/>
+				<caller organisation="com.fasterxml.jackson.module" name="jackson-module-scala_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.6.7.1"/>
+				<caller organisation="org.apache.spark" name="spark-core_2.12" conf="default, compile, runtime, master" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.4.0"/>
+				<caller organisation="org.spire-math" name="spire_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.0"/>
+				<caller organisation="org.apache.spark" name="spark-tags_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="2.4.0"/>
+				<caller organisation="org.json4s" name="json4s-ast_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="3.5.3"/>
+				<caller organisation="org.spire-math" name="spire-macros_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.0"/>
 				<caller organisation="default" name="bdaproject_2.12" conf="test, compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.1"/>
 				<caller organisation="org.json4s" name="json4s-scalap_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="3.5.3"/>
-				<caller organisation="org.scala-lang.modules" name="scala-xml_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="1.0.6"/>
+				<caller organisation="org.scalanlp" name="breeze-macros_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="0.13.2"/>
+				<caller organisation="org.typelevel" name="macro-compat_2.12" conf="compile, runtime" rev="2.12.8" rev-constraint-default="2.12.8" rev-constraint-dynamic="2.12.8" callerrev="1.1.1"/>
 				<artifacts>
 					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5272591" time="0" location="/home/thibaut/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.12.8.jar">
 						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.8/scala-library-2.12.8.jar"/>

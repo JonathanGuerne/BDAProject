@@ -1,5 +1,12 @@
-
+.idea
+features_extract.parquet
+features_prepared.parquet
+features_extract.parquet/
+features_prepared.parquet/
 /dataset
+target/
+project/
+
 
 # Created by https://www.gitignore.io/api/scala,intellij+all
 # Edit at https://www.gitignore.io/?templates=scala,intellij+all
@@ -79,8 +86,6 @@ fabric.properties
 ### Intellij+all Patch ###
 # Ignores the whole .idea folder and all .iml files
 # See https://github.com/joeblau/gitignore.io/issues/186 and https://github.com/joeblau/gitignore.io/issues/360
-
-.idea/
 
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
