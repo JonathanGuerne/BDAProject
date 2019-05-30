@@ -105,6 +105,10 @@ object DataExtraction extends App {
    .na.fill(Map("director3" -> 0))
    .na.fill(Map("director4" -> 0))
 
+  val df_directors2 = df_directors.withColumn("directors",
+    struct(df_directors("director1"), df_directors("director2"), df_directors("director3"), df_directors("director4")))
+    .drop()
+
   val df_writers = df_crew_movie.withColumn("writers", parse_string($"writers")).select(
     $"tconst",
     $"writers".getItem(0).as("writer1"),
