@@ -4,8 +4,8 @@ features_prepared.parquet
 features_extract.parquet/
 features_prepared.parquet/
 /dataset
-target/
-project/
+target
+project
 
 
 # Created by https://www.gitignore.io/api/scala,intellij+all
