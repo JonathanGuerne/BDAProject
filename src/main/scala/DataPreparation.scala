@@ -40,20 +40,11 @@ object DataPreparation extends App {
 
     val scalerModel = scaler.fit(df2)
 
-    scalerModel.transform(df2)
+    scalerModel.transform(df2).drop(inputCol+"Vec")
   }
 
-  var features = spark.read.parquet("features_extract.parquet").orderBy($"startYear")
+  var features = spark.read.parquet("features_extract.parquet")
   features.createOrReplaceTempView("features")
-
-  //features.show(50, false)
-
-  features = features.withColumn("primaryTitle", split($"primaryTitle", " "))
-  features = features.withColumn("directors", split($"directors", ","))
-  features = features.withColumn("writers", split($"writers", ","))
-  features = features.withColumn("genres", split($"genres", ","))
-
-  //features.show(50, false)
 
   //val features_titles_count = features_titles
   //  .withColumn("primaryTitleSplit", size($"primaryTitleSplit"))
@@ -66,28 +57,20 @@ object DataPreparation extends App {
   //The most frequent size of the titles is 3.
 
   val remover = new StopWordsRemover()
-    .setInputCol("primaryTitle")
-    .setOutputCol("primaryTitleStopWords")
-
+    .setInputCol("title")
+    .setOutputCol("titleStopWords")
   features = remover.transform(features)
 
-  //features.show(50, false)
-
-  features = vectorize(features, "primaryTitleStopWords", "primaryTitleVec", 3)
+  features = vectorize(features, "titleStopWords", "titleVec", 3)
   features = vectorize(features, "directors", "directorsVec", 4)
   features = vectorize(features, "writers", "writersVec", 5)
   features = vectorize(features, "genres", "genresVec", 3)
-
-  features = features.drop("primaryTitle", "primaryTitleStopWords", "directors", "writers", "genres")
-
-  //features.show(50, false)
+  features = features.drop("title", "titleStopWords", "directors", "writers", "genres")
 
   features = normalize(features, "startYear", "startYearNormalize")
-  features = normalize(features, "runtimeMinutes", "runtimeMinutesNormalize")
-
-  features = features.drop("startYear", "startYearVec", "runtimeMinutes", "runtimeMinutesVec")
+  features = normalize(features, "duration", "durationNormalize")
+  features = features.drop("startYear", "duration")
 
   features.show(50, false)
-
   features.write.mode(SaveMode.Overwrite).parquet("features_prepared.parquet")
 }
