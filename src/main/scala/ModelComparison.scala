@@ -3,7 +3,7 @@ import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.evaluation.{ClusteringEvaluator, RegressionEvaluator}
 import org.apache.spark.ml.feature.{PCA, RFormula, VectorAssembler}
 import org.apache.spark.ml.regression.{DecisionTreeRegressor, GBTRegressor, GeneralizedLinearRegression, LinearRegression, RandomForestRegressor, _}
-import org.apache.spark.ml.tuning.{ParamGridBuilder, TrainValidationSplit}
+import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder, TrainValidationSplit}
 import org.apache.spark.sql.SparkSession
 
 
@@ -34,7 +34,8 @@ object ModelComparison extends App {
 
   val label_name = "ratings"
 
-  train.show()
+  print("train " + train.count() + "\n")
+  print("test " + test.count() + "\n")
 
   val assembler = new VectorAssembler()
     .setInputCols(features_name)
@@ -43,7 +44,7 @@ object ModelComparison extends App {
   val df_ = assembler.transform(train)
     .select("features")
 
-  df_.show()
+  //df_.show()
 
   // PCA (2)
   val pca = new PCA()
@@ -138,7 +139,7 @@ object ModelComparison extends App {
   // TODO thibaut setup a survival regression
 
 
-  // TODO john setup an isontonic regression
+  // TODO john setup an isotonic regression
   //creating estimators
   val rForm_iso = new RFormula()
   val iso = new IsotonicRegression().setLabelCol(label_name).setFeaturesCol("features")
@@ -166,10 +167,22 @@ object ModelComparison extends App {
     ("Decision Tree Regression", params_dt, pipeline_dt),
     ("Random Forest Regression", params_rf, pipeline_rf),
     ("Isotonic Regression", params_iso, pipeline_iso),
-    ("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt))
+    //("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt)
+    )
 
   for (el <- models_arr) {
 
+    val cv = new CrossValidator()
+      .setEstimator(el._3)
+      .setEvaluator(evaluator)
+      .setEstimatorParamMaps(el._2)
+      .setNumFolds(10)  // WARNING 10 fold make training time very long
+      .setParallelism(5)  // Evaluate up to 5 parameter settings in parallel
+
+    // Run cross-validation, and choose the best set of parameters.
+    val cvModel = cv.fit(train)
+
+    /*
     //model selection
     val tvs = new TrainValidationSplit()
       .setTrainRatio(0.75) // also the default.
@@ -179,9 +192,10 @@ object ModelComparison extends App {
 
     //running the pipeline
     val tvsFitted = tvs.fit(train)
+    */
 
     //evaluating on the test set
-    val testTransformed = tvsFitted.transform(test)
+    val testTransformed = cvModel.transform(test)
     val result = evaluator.evaluate(testTransformed)
 
     println(el._1 + " evaluation result : " + result)
