@@ -90,6 +90,12 @@ Il faut donc chercher le nombre idéal de réalisateurs/scénaristes pour ensuit
 
 ![](images/writers.png)
 
+__Histogramme des notes__
+
+Ci-dessous, l'histogramme des notes des données d'entraînement, on remarque que la majorité des notes se trouvent entre 5 et 8.
+
+![](images/ratings_histogram.png)
+
 ## Comparaison des modèles 
 
 __Etdues des mse__
