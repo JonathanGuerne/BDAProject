@@ -119,5 +119,49 @@ Le tableau ci-dessous illustre les prédictions du random forest. Pour rappel c'
 |tt0068646|9.2    |6.636440864098387|
 
 
+__K-Means__
 
+Pour K-Means, nous avons fait tourné l'algorithme avec 10 clusters et nous avons fait des statistiques sur les notes contenues dans chaque cluster. Voici un tableau contenant :
 
+* La note minimum du cluster
+* La note maximum du cluster
+* La moyenne du cluster
+* L'écart type du cluster
+
+``` text
++------------------+----------+------------+-------------------+------------+
+|      avg(ratings)|prediction|min(ratings)|stddev_pop(ratings)|max(ratings)|
++------------------+----------+------------+-------------------+------------+
+|6.3917950180642435|         0|         1.0|  0.979701860714243|         9.5|
+| 5.755560224089644|         1|         1.0|  1.389918143364063|         9.8|
+|  5.77104160431008|         2|         1.0| 1.3150526402535503|        10.0|
+| 7.067046602221895|         3|         1.0| 1.1806178577485784|        10.0|
+|  5.28663857959674|         4|         1.0| 1.3823482827718772|         9.4|
+| 6.391406791406788|         5|         1.0|  1.165642589116651|         9.8|
+| 5.900535868625755|         6|         1.5| 1.1351725974796394|         9.2|
+| 6.131306259158459|         7|         1.0| 1.0296355122250407|         9.0|
+| 6.430731728363079|         8|         1.0| 1.1090194123005181|         9.8|
+| 5.942283781312849|         9|         1.0| 1.2260331264703557|         9.2|
++------------------+----------+------------+-------------------+------------+
+```
+
+Voici une liste contenant la note la plus représentée de chaque cluster :
+
+``` text
+Cluster : 0      Rating : 6.0
+Cluster : 1      Rating : 5.0
+Cluster : 2      Rating : 6.0
+Cluster : 3      Rating : 7.0
+Cluster : 4      Rating : 5.0
+Cluster : 5      Rating : 6.0
+Cluster : 6      Rating : 6.0
+Cluster : 7      Rating : 6.0
+Cluster : 8      Rating : 6.0
+Cluster : 9      Rating : 6.0
+```
+
+Avec ces statistiques, on remarque que les clusters ne correspondent pas à une note pour plusieurs raisons :
+
+* Les notes les plus représentées sont entre 5 et 7 pour tous les clusters. Et si on observe les histogrammes de chaque cluster, ils ont la même forme que l'histogramme général.
+* Les clusters possède la quasiment la même note minimum et maximum.
+* Les moyennes des clusters sont très proches les une des autres.
