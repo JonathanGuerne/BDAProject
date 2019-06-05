@@ -100,3 +100,24 @@ random mean square error : 11.386960597053985
 zero mean square error : 39.85030151787049
 five mean square error : 3.0465965679676974
 
+
+__Test de cas concrets__
+
+Pour avoir une idée plus concrète des performances de nos modèles on a décidés de mettre à part certains films. Après les avoirs mis à part on les utiliseraient comme deuxième set de test. Les films ont été sélectionners parmis les meilleurs et les pire de l'intégralité de la base de donnée de Imdb. On a utilisé deux classement (respectivement des meilleurs et pires films) mis en place par Imdb eux-même.
+
+On a donc fait une prédiction avec chacun des modèles mis en place sur ce sous-ensemble de 6 films au total. On a bien sur pris soin de ne pas les inclures dans l'ensemble d'entraînement. Avoir des films avec des ratings si différents les uns des autres nous a permis de vérifier si les modèles étaient bien capables de classer un film comme bon ou mauvais. Dans l'ensemble c'est possible, les 3 mauvais films ont des prédictions plus basse que les 3 bons films mais la différence n'est pas autant grande qu'en réalité. Les modèles n'arrivent ensuite pas à séparer les bons/mauvais films entre eux quand. 
+
+Le tableau ci-dessous illustre les prédictions du random forest. Pour rappel c'est le modèle avec la plus petit mse. On remarque une claire séparation entre les films bons et mauvais mais ensuite il n'y a pas de réel cohérence par rapport au rating original. 
+
+|id       |ratings|prediction       |
+|---------|-------|-----------------|
+|tt0119217|8.3    |6.576423983134677|
+|tt0926129|3.9    |4.851917823482771|
+|tt0060666|1.9    |5.213862682478526|
+|tt1213644|1.9    |5.679974565475559|
+|tt0111161|9.3    |6.760429614171793|
+|tt0068646|9.2    |6.636440864098387|
+
+
+
+
