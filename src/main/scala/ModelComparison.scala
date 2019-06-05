@@ -3,7 +3,7 @@ import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.evaluation.{ClusteringEvaluator, RegressionEvaluator}
 import org.apache.spark.ml.feature.{PCA, RFormula, VectorAssembler}
 import org.apache.spark.ml.regression.{DecisionTreeRegressor, GBTRegressor, GeneralizedLinearRegression, LinearRegression, RandomForestRegressor, _}
-import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder, TrainValidationSplit}
+import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
 import org.apache.spark.sql.SparkSession
 
 
@@ -26,35 +26,36 @@ object ModelComparison extends App {
   train = train.drop("id")
   test = test.drop("id")
 
+//  test.select("ratings").write.option("header",true).csv("out.csv")
+
   val features_name = Array("isAdult", "titleVec", "directorsVec", "writersVec", "genresVec", "startYearNormalize",
     "durationNormalize")
 
-  val features_r = "lab ~ . + isAdult:isAdult + titleVec:titleVec + directorsVec:directorsVec + writersVec:writersVec + " +
-    "genresVec:genresVec + startYearNormalize:startYearNormalize + durationNormalize:durationNormalize"
+  val features_r = Array("ratings ~ .", "ratings ~ .")
 
   val label_name = "ratings"
 
   print("train " + train.count() + "\n")
   print("test " + test.count() + "\n")
 
-  val assembler = new VectorAssembler()
-    .setInputCols(features_name)
-    .setOutputCol("features")
-
-  val df_ = assembler.transform(train)
-    .select("features")
-
-  //df_.show()
-
-  // PCA (2)
-  val pca = new PCA()
-    .setInputCol("features")
-    .setOutputCol("pcaFeatures")
-    .setK(2)
-    .fit(df_)
-
-  val result = pca.transform(df_).select("pcaFeatures")
-  result.show(false)
+//  val assembler = new VectorAssembler()
+//    .setInputCols(features_name)
+//    .setOutputCol("features")
+//
+//  val df_ = assembler.transform(train)
+//    .select("features")
+//
+//  //df_.show()
+//
+//  // PCA (2)
+//  val pca = new PCA()
+//    .setInputCol("features")
+//    .setOutputCol("pcaFeatures")
+//    .setK(2)
+//    .fit(df_)
+//
+//  val result = pca.transform(df_).select("pcaFeatures")
+//  result.show(false)
 
   // TODO john linear regression
   //creating estimators
@@ -67,7 +68,7 @@ object ModelComparison extends App {
 
   //training
   val params_lr = new ParamGridBuilder()
-    .addGrid(rForm_lr.formula, Array(features_r))
+    .addGrid(rForm_lr.formula, features_r)
     .addGrid(lr.elasticNetParam, Array(0.0, 0.5, 1.0))
     .addGrid(lr.regParam, Array(0.1, 2.0))
     .build()
@@ -84,7 +85,7 @@ object ModelComparison extends App {
 
   //training
   val params_glr = new ParamGridBuilder()
-    .addGrid(rForm_glr.formula, Array(features_r))
+    .addGrid(rForm_glr.formula, features_r)
     .addGrid(glr.family, Array("Gaussian", "Poisson"))
     .addGrid(glr.regParam, Array(0.1, 2.0))
     .build()
@@ -100,7 +101,7 @@ object ModelComparison extends App {
 
   //training
   val params_rf = new ParamGridBuilder()
-    .addGrid(rForm_rf.formula, Array(features_r))
+    .addGrid(rForm_rf.formula, features_r)
     .addGrid(rf.maxDepth, Array(10, 25))
     .addGrid(rf.numTrees, Array(5, 10))
     .build()
@@ -116,7 +117,7 @@ object ModelComparison extends App {
 
   //training
   val params_dt = new ParamGridBuilder()
-    .addGrid(rForm_dt.formula, Array(features_r))
+    .addGrid(rForm_dt.formula, features_r)
     .addGrid(dt.maxDepth, Array(10, 25))
     .build()
 
@@ -132,7 +133,7 @@ object ModelComparison extends App {
 
   //training
   val params_gbt = new ParamGridBuilder()
-    .addGrid(rForm_gbt.formula, Array(features_r))
+    .addGrid(rForm_gbt.formula, features_r)
     .addGrid(gbt.maxDepth, Array(10, 25))
     .build()
 
@@ -150,7 +151,7 @@ object ModelComparison extends App {
 
   //training
   val params_iso = new ParamGridBuilder()
-    .addGrid(rForm_iso.formula, Array(features_r))
+    .addGrid(rForm_iso.formula, features_r)
     .addGrid(iso.isotonic, Array(true, false))
     .build()
 
@@ -199,6 +200,9 @@ object ModelComparison extends App {
     val result = evaluator.evaluate(testTransformed)
 
     println(el._1 + " evaluation result : " + result)
+
+//    testTransformed.select("prediction").write.option("header",true).csv("prediction.csv")
+
   }
 
   // https://spark.apache.org/docs/2.4.3/ml-classification-regression.html
