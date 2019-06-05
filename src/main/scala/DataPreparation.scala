@@ -46,6 +46,8 @@ object DataPreparation extends App {
   var features = spark.read.parquet("features_extract.parquet")
   features.createOrReplaceTempView("features")
 
+  features.printSchema()
+
   //val features_titles_count = features_titles
   //  .withColumn("primaryTitleSplit", size($"primaryTitleSplit"))
   //  .select($"primaryTitleSplit".as("primaryTitleSplitCount"))

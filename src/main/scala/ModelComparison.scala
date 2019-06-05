@@ -2,9 +2,11 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.evaluation.{ClusteringEvaluator, RegressionEvaluator}
 import org.apache.spark.ml.feature.{PCA, RFormula, VectorAssembler}
+import org.apache.spark.ml.linalg.Matrix
+import org.apache.spark.ml.stat.Correlation
 import org.apache.spark.ml.regression.{DecisionTreeRegressor, GBTRegressor, GeneralizedLinearRegression, LinearRegression, RandomForestRegressor, _}
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SparkSession, Row}
 
 
 object ModelComparison extends App {
@@ -26,10 +28,10 @@ object ModelComparison extends App {
   train = train.drop("id")
   test = test.drop("id")
 
-//  test.select("ratings").write.option("header",true).csv("out.csv")
+  //  test.select("ratings").write.option("header",true).csv("out.csv")
 
-  val features_name = Array("isAdult", "titleVec", "directorsVec", "writersVec", "genresVec", "startYearNormalize",
-    "durationNormalize")
+  val features_name = Array("isAdult", "nb_words_title", "nb_genres", "nb_directors", "nb_writers", "titleVec",
+    "directorsVec", "writersVec", "genresVec", "startYearNormalize", "durationNormalize")
 
   val features_r = Array("ratings ~ .", "ratings ~ .")
 
@@ -38,24 +40,31 @@ object ModelComparison extends App {
   print("train " + train.count() + "\n")
   print("test " + test.count() + "\n")
 
-//  val assembler = new VectorAssembler()
-//    .setInputCols(features_name)
-//    .setOutputCol("features")
-//
-//  val df_ = assembler.transform(train)
-//    .select("features")
-//
-//  //df_.show()
-//
-//  // PCA (2)
-//  val pca = new PCA()
-//    .setInputCol("features")
-//    .setOutputCol("pcaFeatures")
-//    .setK(2)
-//    .fit(df_)
-//
-//  val result = pca.transform(df_).select("pcaFeatures")
-//  result.show(false)
+  /*
+
+  val assembler = new VectorAssembler()
+    .setInputCols(features_name)
+    .setOutputCol("features")
+
+  val df_ = assembler.transform(train)
+    .select("features")
+
+  val Row(coeff1: Matrix) = Correlation.corr(df_, "features").head
+  println("Pearson correlation matrix:\n" + coeff1.toString(22, Int.MaxValue))
+
+  df_.show()
+
+  // PCA (2)
+  val pca = new PCA()
+    .setInputCol("features")
+    .setOutputCol("pcaFeatures")
+    .setK(2)
+    .fit(df_)
+
+  val result = pca.transform(df_).select("pcaFeatures")
+  result.show(false)
+
+   */
 
   // TODO john linear regression
   //creating estimators
@@ -155,12 +164,12 @@ object ModelComparison extends App {
     .addGrid(iso.isotonic, Array(true, false))
     .build()
 
-
   //evaluation
   val evaluator = new RegressionEvaluator()
     .setMetricName("mse")
     .setPredictionCol("prediction")
     .setLabelCol(label_name)
+
 
   val models_arr = List(
     ("Linear Regression", params_lr, pipeline_lr),
@@ -168,8 +177,8 @@ object ModelComparison extends App {
     ("Decision Tree Regression", params_dt, pipeline_dt),
     ("Random Forest Regression", params_rf, pipeline_rf),
     ("Isotonic Regression", params_iso, pipeline_iso),
-    //("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt)
-    )
+    ("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt)
+  )
 
   for (el <- models_arr) {
 
@@ -177,8 +186,8 @@ object ModelComparison extends App {
       .setEstimator(el._3)
       .setEvaluator(evaluator)
       .setEstimatorParamMaps(el._2)
-      .setNumFolds(10)  // WARNING 10 fold make training time very long
-      .setParallelism(5)  // Evaluate up to 5 parameter settings in parallel
+      .setNumFolds(10) // WARNING 10 fold make training time very long
+      .setParallelism(5) // Evaluate up to 5 parameter settings in parallel
 
     // Run cross-validation, and choose the best set of parameters.
     val cvModel = cv.fit(train)
@@ -201,9 +210,10 @@ object ModelComparison extends App {
 
     println(el._1 + " evaluation result : " + result)
 
-//    testTransformed.select("prediction").write.option("header",true).csv("prediction.csv")
+    //    testTransformed.select("prediction").write.option("header",true).csv("prediction.csv")
 
   }
+
 
   // https://spark.apache.org/docs/2.4.3/ml-classification-regression.html
   // https://spark.apache.org/docs/2.4.3/ml-clustering.html#latent-dirichlet-allocation-lda
