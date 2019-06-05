@@ -102,9 +102,12 @@ __Etdues des mse__
 
 Après avoir obtenu les premiers scores en entraînant nos modèles il a été jugé pertinent de comparer quel performance aurait été obtenu avec des modèles très simple (aléatoire ou à prédiction constante). 
 
-random mean square error : 11.386960597053985
-zero mean square error : 39.85030151787049
-five mean square error : 3.0465965679676974
+| Approch                         | MSE   |
+|--------------------------------------|-------|
+| predict Random values                | 11.38 |
+| predict always 0                     | 39.85 |
+| predict always 5                     | 3.05  |
+| predict always median of ratings set | 1.67  |
 
 
 __Test de cas concrets__
