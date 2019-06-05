@@ -128,6 +128,8 @@ Pour K-Means, nous avons fait tourné l'algorithme avec 10 clusters et nous avon
 * La moyenne du cluster
 * L'écart type du cluster
 
+La colonne "prediction" correspond aux numéros du cluster.
+
 ``` text
 +------------------+----------+------------+-------------------+------------+
 |      avg(ratings)|prediction|min(ratings)|stddev_pop(ratings)|max(ratings)|
