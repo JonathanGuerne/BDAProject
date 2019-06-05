@@ -100,3 +100,16 @@ random mean square error : 11.386960597053985
 zero mean square error : 39.85030151787049
 five mean square error : 3.0465965679676974
 
+
+__Test de cas concrets__
+
+Pour avoir une idée plus concrète des performances de nos modèles on a décidés de mettre à part certains films. Après les avoirs mis à part on les utiliseraient comme deuxième set de test. 
+
++---------+------------------+-------+---------+--------------+--------------------+
+|   tconst|      primaryTitle|isAdult|startYear|runtimeMinutes|              genres|
++---------+------------------+-------+---------+--------------+--------------------+
+|tt0088763|Back to the Future|      0|     1985|           116|Adventure,Comedy,...|
+|tt0109830|      Forrest Gump|      0|     1994|           142|       Drama,Romance|
+|tt0133093|        The Matrix|      0|     1999|           136|       Action,Sci-Fi|
++---------+------------------+-------+---------+--------------+--------------------+
+
