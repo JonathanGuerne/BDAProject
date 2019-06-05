@@ -89,3 +89,14 @@ Il faut donc chercher le nombre idéal de réalisateurs/scénaristes pour ensuit
 ![](images/directors.png)
 
 ![](images/writers.png)
+
+## Comparaison des modèles 
+
+__Etdues des mse__
+
+Après avoir obtenu les premiers scores en entraînant nos modèles il a été jugé pertinent de comparer quel performance aurait été obtenu avec des modèles très simple (aléatoire ou à prédiction constante). 
+
+random mean square error : 11.386960597053985
+zero mean square error : 39.85030151787049
+five mean square error : 3.0465965679676974
+
