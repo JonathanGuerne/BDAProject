@@ -98,6 +98,10 @@ Ci-dessous, l'histogramme des notes des données d'entraînement, on remarque qu
 
 ## Comparaison des modèles 
 
+Comme le projet est très exploratoir, qu'on ne sait pas exactement à quels résultats s'attendre, on a décider de tester le plus de modèles possibles et de les comparer.
+
+Pour rendre plus efficace la mise en place de tous ces modèles on utilise les piplines de spark-ml qui va nous permettre de préparer de façon structuré la mise en place de chaque modèle y compris ses hypers paramètres. 
+
 __Etdues des mse__
 
 Après avoir obtenu les premiers scores en entraînant nos modèles il a été jugé pertinent de comparer quel performance aurait été obtenu avec des modèles très simple (aléatoire ou à prédiction constante). 
