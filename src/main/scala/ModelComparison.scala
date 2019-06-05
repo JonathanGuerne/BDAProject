@@ -1,3 +1,7 @@
+import DataExtraction.{df_basics, df_ratings}
+import DataPreparation.spark
+import breeze.linalg.max
+import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.evaluation.{ClusteringEvaluator, RegressionEvaluator}
@@ -7,17 +11,26 @@ import org.apache.spark.ml.stat.Correlation
 import org.apache.spark.ml.regression.{DecisionTreeRegressor, GBTRegressor, GeneralizedLinearRegression, LinearRegression, RandomForestRegressor, _}
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
 import org.apache.spark.sql.{SparkSession, Row}
+import org.apache.spark.sql.{Row, SparkSession}
+import org.apache.spark.sql.types.{LongType, StructField, StructType}
+import org.apache.spark.sql.functions.{stddev_pop, stddev_samp}
+import org.apache.spark.sql.functions.desc
 
 
 object ModelComparison extends App {
 
   val nbModel: Int = 2
 
+
+
   val spark = SparkSession
     .builder()
     .master("local")
     .appName("Spark MLlib basic example")
     .getOrCreate()
+
+  import spark.implicits._
+
 
   //reading data and splitting to train and test
   var features = spark.read.parquet("features_prepared.parquet")
@@ -218,16 +231,18 @@ object ModelComparison extends App {
   // https://spark.apache.org/docs/2.4.3/ml-classification-regression.html
   // https://spark.apache.org/docs/2.4.3/ml-clustering.html#latent-dirichlet-allocation-lda
 
+  //K-means
+
   val cl_assembler = new VectorAssembler()
     .setInputCols(features_name)
     .setOutputCol("features")
 
   val cl_df_ = cl_assembler.transform(train)
-    .select("features")
+    .select("features", "ratings")
 
 
   //Trains a k-means model.
-  val kmeans = new KMeans().setFeaturesCol("features").setK(2).setSeed(1L)
+  val kmeans = new KMeans().setFeaturesCol("features").setK(10).setSeed(3L)
   val model = kmeans.fit(cl_df_)
 
   // Make predictions
@@ -243,7 +258,46 @@ object ModelComparison extends App {
   println("Cluster Centers: ")
   model.clusterCenters.foreach(println)
 
+  // Show the performance
+  val df_avg=predictions.groupBy($"prediction").avg("ratings")
+  val df_min=predictions.groupBy($"prediction").min("ratings")
+  val df_max=predictions.groupBy($"prediction").max("ratings")
+  val df_std=predictions.groupBy($"prediction").agg(stddev_pop($"ratings"))
 
-  predictions.show(200)
+  val df_temp=df_avg.join(df_min, df_avg("prediction")===df_min("prediction")).drop(df_min("prediction"))
+  val df_temp2=df_temp.join(df_std, df_temp("prediction")===df_std("prediction")).drop(df_std("prediction"))
+  val df_stats=df_temp2.join(df_max, df_temp2("prediction")===df_max("prediction")).drop(df_max("prediction"))
+
+  df_stats.sort("prediction").show()
+
+  // NOTE: add minimum and maximum values to thresholds
+  val thresholds: Array[Double] = (1.0 until 11.0 by 1).toArray
+
+  for (i <- 0 to 9)
+    {
+      // Convert DataFrame to RDD and calculate histogram values
+      val _tmpHist = predictions.filter($"prediction"===i)
+        .select($"ratings" cast "double")
+        .rdd.map(r => r.getDouble(0))
+        .histogram(thresholds)
+
+      // Result DataFrame contains `from`, `to` range and the `value`.
+      val histogram = spark.sparkContext.parallelize((thresholds, thresholds.tail, _tmpHist).zipped.toList).toDF("from", "to", "value")
+
+      val rating_cluster=histogram.orderBy(desc("value")).select("from").first().get(0)
+
+
+      println("Cluster : "+i+"      Rating : "+rating_cluster)
+    }
+
+  val _tmpHist = cl_df_
+    .select($"ratings" cast "double")
+    .rdd.map(r => r.getDouble(0))
+    .histogram(thresholds)
+
+  // Result DataFrame contains `from`, `to` range and the `value`.
+  val histogram = spark.sparkContext.parallelize((thresholds, thresholds.tail, _tmpHist).zipped.toList).toDF("from", "to", "value")
+
+  histogram.show(10)
 
 }
