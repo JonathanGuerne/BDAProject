@@ -100,18 +100,18 @@ Ci-dessous, l'histogramme des notes des données d'entraînement, on remarque qu
 
 Comme le projet est très exploratoir, qu'on ne sait pas exactement à quels résultats s'attendre, on a décider de tester le plus de modèles possibles et de les comparer.Pour rendre plus efficace la mise en place de tous ces modèles on utilise les piplines de spark-ml qui va nous permettre de préparer de façon structuré la mise en place de chaque modèle y compris ses hypers paramètres. 
 
-Les modèles comparés sont les suivants, ils représentent la quasi-totalité des modèles de regressions disponible avec spark-ml.
+Les modèles comparés sont les suivants, ils représentent la quasi-totalité des modèles de regressions disponible avec spark-ml. La performance de chacun des modèles a été déterminer en utilisant la mse, la *mean squared error*.
 
-| Model name                       |
-|----------------------------------|
-| Linear Regression                |
-| Generalized Linear Regression    |
-| Decision Tree Regression         |
-| Random Forest Regression         |
-| Isotonic Regression              |
-| Gradient Boosted Tree Regression |
+| Model name                       |MSE |
+|----------------------------------|-|
+| Linear Regression                |1.40|
+| Generalized Linear Regression    |1.40|
+| Decision Tree Regression         |1.34|
+| Random Forest Regression         |1.29|
+| Isotonic Regression              |1.81|
+| Gradient Boosted Tree Regression |-|
 
-La performance de chacun des modèles a été déterminer en utilisant la mse, la *mean squared error*.
+Nous n'avions toutefois pas de moyen de déterminer si les résultats obtenus étaient bons ou non. C'est pour celà qu'on a décidé d'étudier le comportement de la mse avec des valeurs de prédictions arbitraires. Un fois cette étude menée nous serons capables de savoir à quel point notre modèle apporte quelque chose en plus qu'une prédiction aléatoire par exemple.
 
 __Etdues des mse__
 
@@ -124,6 +124,10 @@ Après avoir obtenu les premiers scores en entraînant nos modèles il a été j
 | predict always 5                     | 3.05  |
 | predict always median of ratings set | 1.67  |
 
+
+Les approches de prédictions sont écritent dans le tableau dans l'ordre dans lequel elles ont été testées. Premièrement on a cherché à faire des prédictions avec des valeurs aléatoires entre 0 et 10 la mse était plutôt grande et il semblait probable qu'une approche différente donne de meilleur résultats. Ces meilleurs résultats nous les avons obtenus en prédisant toujours la valeur 5 pour chaque entrée. Et si on analyse l'histogramme des notes ça semble relativement logique. Les notes sont principalement concentrées entre 5 et 7 donc prédire tout le temps une valeur dans cet interval augmente les chances de faire une prédiction relativement correcte. On valide cette hypothèse avec la dernière étape, on ne prédit maintenant plus que la médiane du set de ratings. La mse est encore fortement réduite. 
+
+Cependant on remarque que la quasi-totalité de nos modèles ont des meilleurs résultats que cette prédiction utilisant uniquement la médiane. Même si la différence n'est pas énorme on peut donc en conclure que nos modèles sont suppérieur que des approches simplistes. Mais pour analyser plus précisément leur comportement il serait intéressant de mener une analyse concrète sur un certain subset de films.
 
 __Test de cas concrets__
 
