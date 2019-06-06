@@ -237,7 +237,7 @@ object ModelComparison extends App {
 
 
   //Trains a k-means model.
-  val kmeans = new KMeans().setFeaturesCol("features").setK(10).setSeed(3L)
+  val kmeans = new KMeans().setFeaturesCol("features").setDistanceMeasure("cosine").setMaxIter(1000).setK(10).setSeed(3L)
   val model = kmeans.fit(cl_df_)
 
   // Make predictions
