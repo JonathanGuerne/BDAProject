@@ -113,6 +113,8 @@ Les modèles comparés sont les suivants, ils représentent la quasi-totalité d
 
 Nous n'avions toutefois pas de moyen de déterminer si les résultats obtenus étaient bons ou non. C'est pour celà qu'on a décidé d'étudier le comportement de différentes métriques avec des valeurs de prédictions arbitraires. Un fois cette étude menée nous serons capables de savoir à quel point notre modèle apporte quelque chose en plus qu'une prédiction aléatoire par exemple.
 
+En analysant l'histogramme des notes on réalise que l'on a un ensemble de données non uniformément distribué. Il existe des modèles moins sensible à cette problématique comme par exemple les modèles Bayasiens. Implémenter un modèle Bayasien pourrait augmenter les performances de regression. Mais il n'existe pas de tel modèle dans spark-ml pour l'instant et il n'est pas non plus possible de paramétrer un modèle pour utiliser par exemple un noyau bayasien. 
+
 __Etudes des métriques__
 
 Après avoir obtenu les premiers scores en entraînant nos modèles il a été jugé pertinent de comparer quel performance aurait été obtenu avec des modèles très simple (aléatoire ou à prédiction constante). 
