@@ -8,7 +8,7 @@ Nous avons donc choisi d'utiliser le dataset d'IMdB et d'y appliquer des algorit
 
 ## Description du dataset
 
-Le dataset choisi vient de IMdB qui est un site notant et donnant des avis sur
+Le dataset choisit vient de IMdB qui est un site notant et donnant des avis sur
 des films et des séries. Ce dataset fournit des informations concernant les titres, les membres de l'équipe réalisant les films et
 séries, concernant les épisodes en cas de séries, concernant les acteurs et concernant les votes attribués par le
 site.
@@ -237,14 +237,14 @@ Comme le projet est très exploratoire, qu'on ne sait pas exactement à quels r�
 
 Les modèles comparés sont les suivants, ils représentent la quasi-totalité des modèles de regressions disponible avec spark-ml. La performance de chacun des modèles a été déterminée en utilisant la mse - *mean squared error*, la rmse - *root mean square error*, la mae - *mean absolute error*, la r2 *le coefficient de détermination non ajusté*. 
 
-| Model name                       |MSE|RMSE|MAE|r2|
-|----------------------------------|-|-|-|-|
-| Linear Regression                |1.40|1.18|0.92|0.15|
-| Generalized Linear Regression    |1.40|1.18|0.92|0.15|
-| Decision Tree Regression         |1.34|1.15|0.89|0.18|
-| Random Forest Regression         |1.29|1.13|0.87|0.22|
-| Isotonic Regression              |1.81|1.37|1.01|-0.13|
-| Gradient Boosted Tree Regression |-|-|0.88|-|
+| Model name                       |MSE|RMSE|MAE|
+|----------------------------------|-|-|-|
+| Linear Regression                |1.40|1.18|0.92|
+| Generalized Linear Regression    |1.40|1.18|0.92|
+| Decision Tree Regression         |1.34|1.15|0.89|
+| Random Forest Regression         |1.29|1.13|0.87|
+| Isotonic Regression              |1.81|1.37|1.01|
+| Gradient Boosted Tree Regression |-|-|0.88|
 
 Nous n'avions toutefois pas de moyen de déterminer si les résultats obtenus étaient bons ou non. C'est pour celà qu'on a décidé d'étudier le comportement de différentes métriques avec des valeurs de prédictions arbitraires. Un fois cette étude menée nous serons capables de savoir à quel point notre modèle apporte quelque chose en plus qu'une prédiction aléatoire par exemple.
 
@@ -340,10 +340,17 @@ Avec ces statistiques, on remarque que les clusters ne correspondent pas à une 
 * Les clusters possède la quasiment la même note minimum et maximum.
 * Les moyennes des clusters sont très proches les une des autres.
 
-K-Means a été testé avec les 2 mesures de distances proposé par Spark mais dans les 2 cas les résultats sont similaires.
+## Conclusion
 
-## Conclusion
+Un des grands problèmes que nous avons constatés sur nos données sont leur manque de balancement. En effet, en se basant sur l'histogramme des notes on remarque que les notes sont principalement répartient entre 5 et 7. Cepdenant les données non-balancées peuvent poser problème chez la grande majorité des modèles de regression. 
 
+Une des famille de modèle qui ne serait pas sensible à ces données non balancées serait les modèles Bayasiens. Cependant, comme dit plus haut il n'existe pas aujourd'hui d'implémentation de modèle Bayasiens pour de la regression dans spark ml. La solution pourrait également passer par la mise en place d'une métrique d'évaluation personalisé à notre problématique, mais, d'après nos analyses, on ne peut pas implémenter de métriques personnalisés avec spark-ml.
+
+Cependant, malgrés ce problème de balancement des données nous avons aussi pu constater que tous les modèles implémentés sont meilleurs que de l'aléatoire ou encore la prédiction arbitraire de la valeur médiane de l'ensemble des ratings.
+
+Notre comparaison des modèles supervisés et non-supervisés nous on permit de déterminer que la créatrion de clusters ne passe pas par une séparation des films dans différents clusters de ratings. On peut donc en déduire que si l'on veut augmenter nos performances de régressions il serait préférable de continuer à utiliser principalement des modèles supervisés.
+
+Il est finalement encore important de mentionner qu'il existe encore d'autres features qui pourrait être extraitent de l'ensemble de données. Par exemple, les acteurs qui représentent la plus grandes quantités de données n'ont pas été utilisés ici par manque de temps mais ils pourraient être utilisés de la même manière que les réalisateurs ou les scénaristes pour rajouter de nouvelles features.
 
 
 
