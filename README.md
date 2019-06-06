@@ -109,7 +109,7 @@ Les modèles comparés sont les suivants, ils représentent la quasi-totalité d
 | Decision Tree Regression         |1.34|0.89|
 | Random Forest Regression         |1.29|0.87|
 | Isotonic Regression              |1.81|1.01|
-| Gradient Boosted Tree Regression |-|-|
+| Gradient Boosted Tree Regression |-|0.88|
 
 Nous n'avions toutefois pas de moyen de déterminer si les résultats obtenus étaient bons ou non. C'est pour celà qu'on a décidé d'étudier le comportement de différentes métriques avec des valeurs de prédictions arbitraires. Un fois cette étude menée nous serons capables de savoir à quel point notre modèle apporte quelque chose en plus qu'une prédiction aléatoire par exemple.
 
