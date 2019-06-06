@@ -78,13 +78,18 @@ object DataExtraction extends App {
       case Row(id: String, title: String, isAdult: String, startYear: String, duration: String, genres: String,
       ratings: String, directors: String, writers: String) =>
         (id,
+          parse_string(title.replaceAll("[^A-Za-z0-9 ]", ""), ' ').length,
           parse_string(title.replaceAll("[^A-Za-z0-9 ]", ""), ' '),
           isAdult.toInt, startYear, duration,
+          parse_string(genres, ',').length,
           parse_string(genres, ','),
           ratings.toDouble,
+          parse_string(directors, ',').length,
           parse_string(directors, ',').slice(0, 4),
+          parse_string(writers, ',').length,
           parse_string(writers, ',').slice(0, 5))
-    }.toDF("id", "title", "isAdult", "startYear", "duration", "genres", "ratings", "directors", "writers")
+    }.toDF("id", "nb_words_title","title", "isAdult", "startYear", "duration",
+    "nb_genres","genres", "ratings", "nb_directors", "directors", "nb_writers","writers")
 
   // Order the final dataframe and show the final extraction and then save it to the corresponding parquet
   df_basics_crew_ratings.orderBy("startYear").show(50, false)

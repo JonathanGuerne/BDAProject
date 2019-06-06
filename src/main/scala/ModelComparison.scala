@@ -1,16 +1,18 @@
-import DataPreparation.spark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.evaluation.{ClusteringEvaluator, RegressionEvaluator}
-import org.apache.spark.ml.feature.{PCA, RFormula, VectorAssembler}
+import org.apache.spark.ml.feature.{RFormula, VectorAssembler}
 import org.apache.spark.ml.regression.{DecisionTreeRegressor, GBTRegressor, GeneralizedLinearRegression, LinearRegression, RandomForestRegressor, _}
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.{desc, stddev_pop}
 
 
 object ModelComparison extends App {
 
   val nbModel: Int = 2
+
+
 
   val spark = SparkSession
     .builder()
@@ -36,10 +38,10 @@ object ModelComparison extends App {
   train = train.drop("id")
   test = test.drop("id")
 
-//  test.select("ratings").write.option("header",true).csv("out.csv")
+  //  test.select("ratings").write.option("header",true).csv("out.csv")
 
-  val features_name = Array("isAdult", "titleVec", "directorsVec", "writersVec", "genresVec", "startYearNormalize",
-    "durationNormalize")
+  val features_name = Array("isAdult", "nb_words_title", "nb_genres", "nb_directors", "nb_writers", "titleVec",
+    "directorsVec", "writersVec", "genresVec", "startYearNormalize", "durationNormalize")
 
   val features_r = Array("ratings ~ .")
 
@@ -48,24 +50,31 @@ object ModelComparison extends App {
   print("train " + train.count() + "\n")
   print("test " + test.count() + "\n")
 
-//  val assembler = new VectorAssembler()
-//    .setInputCols(features_name)
-//    .setOutputCol("features")
-//
-//  val df_ = assembler.transform(train)
-//    .select("features")
-//
-//  //df_.show()
-//
-//  // PCA (2)
-//  val pca = new PCA()
-//    .setInputCol("features")
-//    .setOutputCol("pcaFeatures")
-//    .setK(2)
-//    .fit(df_)
-//
-//  val result = pca.transform(df_).select("pcaFeatures")
-//  result.show(false)
+  /*
+
+  val assembler = new VectorAssembler()
+    .setInputCols(features_name)
+    .setOutputCol("features")
+
+  val df_ = assembler.transform(train)
+    .select("features")
+
+  val Row(coeff1: Matrix) = Correlation.corr(df_, "features").head
+  println("Pearson correlation matrix:\n" + coeff1.toString(22, Int.MaxValue))
+
+  df_.show()
+
+  // PCA (2)
+  val pca = new PCA()
+    .setInputCol("features")
+    .setOutputCol("pcaFeatures")
+    .setK(2)
+    .fit(df_)
+
+  val result = pca.transform(df_).select("pcaFeatures")
+  result.show(false)
+
+   */
 
   // TODO john linear regression
   //creating estimators
@@ -166,12 +175,12 @@ object ModelComparison extends App {
     .addGrid(iso.isotonic, Array(true, false))
     .build()
 
-
   //evaluation
   val evaluator = new RegressionEvaluator()
     .setMetricName("mse")
     .setPredictionCol("prediction")
     .setLabelCol(label_name)
+
 
   val models_arr = List(
     ("Linear Regression", params_lr, pipeline_lr),
@@ -179,8 +188,8 @@ object ModelComparison extends App {
     ("Decision Tree Regression", params_dt, pipeline_dt),
     ("Random Forest Regression", params_rf, pipeline_rf),
     ("Isotonic Regression", params_iso, pipeline_iso),
-    //("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt)
-    )
+    ("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt)
+  )
 
   for (el <- models_arr) {
 
@@ -219,19 +228,22 @@ object ModelComparison extends App {
 
   }
 
+
   // https://spark.apache.org/docs/2.4.3/ml-classification-regression.html
   // https://spark.apache.org/docs/2.4.3/ml-clustering.html#latent-dirichlet-allocation-lda
+
+  //K-means
 
   val cl_assembler = new VectorAssembler()
     .setInputCols(features_name)
     .setOutputCol("features")
 
   val cl_df_ = cl_assembler.transform(train)
-    .select("features")
+    .select("features", "ratings")
 
 
   //Trains a k-means model.
-  val kmeans = new KMeans().setFeaturesCol("features").setK(2).setSeed(1L)
+  val kmeans = new KMeans().setFeaturesCol("features").setK(10).setSeed(3L)
   val model = kmeans.fit(cl_df_)
 
   // Make predictions
@@ -247,7 +259,46 @@ object ModelComparison extends App {
   println("Cluster Centers: ")
   model.clusterCenters.foreach(println)
 
+  // Show the performance
+  val df_avg=predictions.groupBy($"prediction").avg("ratings")
+  val df_min=predictions.groupBy($"prediction").min("ratings")
+  val df_max=predictions.groupBy($"prediction").max("ratings")
+  val df_std=predictions.groupBy($"prediction").agg(stddev_pop($"ratings"))
 
-  predictions.show(200)
+  val df_temp=df_avg.join(df_min, df_avg("prediction")===df_min("prediction")).drop(df_min("prediction"))
+  val df_temp2=df_temp.join(df_std, df_temp("prediction")===df_std("prediction")).drop(df_std("prediction"))
+  val df_stats=df_temp2.join(df_max, df_temp2("prediction")===df_max("prediction")).drop(df_max("prediction"))
+
+  df_stats.sort("prediction").show()
+
+  // NOTE: add minimum and maximum values to thresholds
+  val thresholds: Array[Double] = (1.0 until 11.0 by 1).toArray
+
+  for (i <- 0 to 9)
+    {
+      // Convert DataFrame to RDD and calculate histogram values
+      val _tmpHist = predictions.filter($"prediction"===i)
+        .select($"ratings" cast "double")
+        .rdd.map(r => r.getDouble(0))
+        .histogram(thresholds)
+
+      // Result DataFrame contains `from`, `to` range and the `value`.
+      val histogram = spark.sparkContext.parallelize((thresholds, thresholds.tail, _tmpHist).zipped.toList).toDF("from", "to", "value")
+
+      val rating_cluster=histogram.orderBy(desc("value")).select("from").first().get(0)
+
+
+      println("Cluster : "+i+"      Rating : "+rating_cluster)
+    }
+
+  val _tmpHist = cl_df_
+    .select($"ratings" cast "double")
+    .rdd.map(r => r.getDouble(0))
+    .histogram(thresholds)
+
+  // Result DataFrame contains `from`, `to` range and the `value`.
+  val histogram = spark.sparkContext.parallelize((thresholds, thresholds.tail, _tmpHist).zipped.toList).toDF("from", "to", "value")
+
+  histogram.show(10)
 
 }
