@@ -102,18 +102,18 @@ Comme le projet est très exploratoir, qu'on ne sait pas exactement à quels ré
 
 Les modèles comparés sont les suivants, ils représentent la quasi-totalité des modèles de regressions disponible avec spark-ml. La performance de chacun des modèles a été déterminer en utilisant la mse, la *mean squared error*.
 
-| Model name                       |MSE |
-|----------------------------------|-|
-| Linear Regression                |1.40|
-| Generalized Linear Regression    |1.40|
-| Decision Tree Regression         |1.34|
-| Random Forest Regression         |1.29|
-| Isotonic Regression              |1.81|
-| Gradient Boosted Tree Regression |-|
+| Model name                       |MSE |MAE|
+|----------------------------------|-|-|
+| Linear Regression                |1.40|0.92|
+| Generalized Linear Regression    |1.40|0.92|
+| Decision Tree Regression         |1.34|0.89|
+| Random Forest Regression         |1.29|0.87|
+| Isotonic Regression              |1.81|1.01|
+| Gradient Boosted Tree Regression |-|-|
 
 Nous n'avions toutefois pas de moyen de déterminer si les résultats obtenus étaient bons ou non. C'est pour celà qu'on a décidé d'étudier le comportement de différentes métriques avec des valeurs de prédictions arbitraires. Un fois cette étude menée nous serons capables de savoir à quel point notre modèle apporte quelque chose en plus qu'une prédiction aléatoire par exemple.
 
-__Etdues des métriques__
+__Etudes des métriques__
 
 Après avoir obtenu les premiers scores en entraînant nos modèles il a été jugé pertinent de comparer quel performance aurait été obtenu avec des modèles très simple (aléatoire ou à prédiction constante). 
 
