@@ -48,20 +48,19 @@ object DataPreparation extends App {
 
   features.printSchema()
 
-  //val features_titles_count = features_titles
-  //  .withColumn("primaryTitleSplit", size($"primaryTitleSplit"))
-  //  .select($"primaryTitleSplit".as("primaryTitleSplitCount"))
-
-  //features_titles_count.show(50, false)
-  //features_titles_count.describe().show()
-  //features_titles_count.stat.freqItems(Seq("primaryTitleSplitCount"), 0.4).show()
-
-  //The most frequent size of the titles is 3.
-
   val remover = new StopWordsRemover()
     .setInputCol("title")
     .setOutputCol("titleStopWords")
   features = remover.transform(features)
+
+  /*
+  val features_titles_count = features.select(size($"titleStopWords"))
+  features_titles_count.describe().show()
+  features_titles_count.orderBy("size(titleStopWords)")
+  print(features_titles_count.take((features_titles_count.count()/2).toInt).head.toString()) // median
+   */
+
+  //The mean size of title is 2.3 but we up this number to 3.
 
   features = vectorize(features, "titleStopWords", "titleVec", 3)
   features = vectorize(features, "directors", "directorsVec", 4)

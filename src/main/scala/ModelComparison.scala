@@ -13,7 +13,6 @@ object ModelComparison extends App {
   val nbModel: Int = 2
 
 
-
   val spark = SparkSession
     .builder()
     .master("local")
@@ -23,15 +22,14 @@ object ModelComparison extends App {
   import spark.implicits._
 
 
-
   val set_apart_movies = List("tt1213644", "tt0060666", "tt0926129", "tt0111161", "tt0068646", "tt0119217")
 
   //reading data and splitting to train and test
   var features = spark.read.parquet("features_prepared.parquet")
   features.createOrReplaceTempView("features")
 
-  val df_apart_movies = features.filter($"id" isin(set_apart_movies:_*))
-  features = features.filter(!($"id" isin(set_apart_movies:_*)))
+  val df_apart_movies = features.filter($"id" isin (set_apart_movies: _*))
+  features = features.filter(!($"id" isin (set_apart_movies: _*)))
 
   var Array(train, test) = features.randomSplit(Array(0.7, 0.3))
 
@@ -106,7 +104,7 @@ object ModelComparison extends App {
   val params_glr = new ParamGridBuilder()
     .addGrid(rForm_glr.formula, features_r)
     .addGrid(glr.family, Array("Gaussian", "Poisson", "Gamma"))
-    .addGrid(glr.link, Array("Identity","Log"))
+    .addGrid(glr.link, Array("Identity", "Log"))
     .addGrid(glr.regParam, Array(0.1, 2.0))
     .build()
 
@@ -177,7 +175,7 @@ object ModelComparison extends App {
 
   //evaluation
   val evaluator = new RegressionEvaluator()
-    .setMetricName("mse")
+    .setMetricName("rmse")
     .setPredictionCol("prediction")
     .setLabelCol(label_name)
 
@@ -188,7 +186,7 @@ object ModelComparison extends App {
     ("Decision Tree Regression", params_dt, pipeline_dt),
     ("Random Forest Regression", params_rf, pipeline_rf),
     ("Isotonic Regression", params_iso, pipeline_iso),
-    ("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt)
+    //("Gradient Boosted Tree Regression", params_gbt, pipeline_gbt) // to slow to train
   )
 
   for (el <- models_arr) {
@@ -197,8 +195,8 @@ object ModelComparison extends App {
       .setEstimator(el._3)
       .setEvaluator(evaluator)
       .setEstimatorParamMaps(el._2)
-      .setNumFolds(3)  // WARNING 10 fold make training time very long
-      .setParallelism(3)  // Evaluate up to 5 parameter settings in parallel
+      .setNumFolds(3) // WARNING 10 fold make training time very long
+      .setParallelism(3) // Evaluate up to 5 parameter settings in parallel
 
     // Run cross-validation, and choose the best set of parameters.
     val cvModel = cv.fit(train)
@@ -222,15 +220,11 @@ object ModelComparison extends App {
     println(el._1 + " evaluation result : " + result)
 
     val apartMoviesPreds = cvModel.transform(df_apart_movies)
-    apartMoviesPreds.select("id","ratings","prediction").show(false)
+    apartMoviesPreds.select("id", "ratings", "prediction").show(false)
 
-//    testTransformed.select("prediction").write.option("header",true).csv("prediction.csv")
+    //    testTransformed.select("prediction").write.option("header",true).csv("prediction.csv")
 
   }
-
-
-  // https://spark.apache.org/docs/2.4.3/ml-classification-regression.html
-  // https://spark.apache.org/docs/2.4.3/ml-clustering.html#latent-dirichlet-allocation-lda
 
   //K-means
 
@@ -260,36 +254,35 @@ object ModelComparison extends App {
   model.clusterCenters.foreach(println)
 
   // Show the performance
-  val df_avg=predictions.groupBy($"prediction").avg("ratings")
-  val df_min=predictions.groupBy($"prediction").min("ratings")
-  val df_max=predictions.groupBy($"prediction").max("ratings")
-  val df_std=predictions.groupBy($"prediction").agg(stddev_pop($"ratings"))
+  val df_avg = predictions.groupBy($"prediction").avg("ratings")
+  val df_min = predictions.groupBy($"prediction").min("ratings")
+  val df_max = predictions.groupBy($"prediction").max("ratings")
+  val df_std = predictions.groupBy($"prediction").agg(stddev_pop($"ratings"))
 
-  val df_temp=df_avg.join(df_min, df_avg("prediction")===df_min("prediction")).drop(df_min("prediction"))
-  val df_temp2=df_temp.join(df_std, df_temp("prediction")===df_std("prediction")).drop(df_std("prediction"))
-  val df_stats=df_temp2.join(df_max, df_temp2("prediction")===df_max("prediction")).drop(df_max("prediction"))
+  val df_temp = df_avg.join(df_min, df_avg("prediction") === df_min("prediction")).drop(df_min("prediction"))
+  val df_temp2 = df_temp.join(df_std, df_temp("prediction") === df_std("prediction")).drop(df_std("prediction"))
+  val df_stats = df_temp2.join(df_max, df_temp2("prediction") === df_max("prediction")).drop(df_max("prediction"))
 
   df_stats.sort("prediction").show()
 
   // NOTE: add minimum and maximum values to thresholds
   val thresholds: Array[Double] = (1.0 until 11.0 by 1).toArray
 
-  for (i <- 0 to 9)
-    {
-      // Convert DataFrame to RDD and calculate histogram values
-      val _tmpHist = predictions.filter($"prediction"===i)
-        .select($"ratings" cast "double")
-        .rdd.map(r => r.getDouble(0))
-        .histogram(thresholds)
+  for (i <- 0 to 9) {
+    // Convert DataFrame to RDD and calculate histogram values
+    val _tmpHist = predictions.filter($"prediction" === i)
+      .select($"ratings" cast "double")
+      .rdd.map(r => r.getDouble(0))
+      .histogram(thresholds)
 
-      // Result DataFrame contains `from`, `to` range and the `value`.
-      val histogram = spark.sparkContext.parallelize((thresholds, thresholds.tail, _tmpHist).zipped.toList).toDF("from", "to", "value")
+    // Result DataFrame contains `from`, `to` range and the `value`.
+    val histogram = spark.sparkContext.parallelize((thresholds, thresholds.tail, _tmpHist).zipped.toList).toDF("from", "to", "value")
 
-      val rating_cluster=histogram.orderBy(desc("value")).select("from").first().get(0)
+    val rating_cluster = histogram.orderBy(desc("value")).select("from").first().get(0)
 
 
-      println("Cluster : "+i+"      Rating : "+rating_cluster)
-    }
+    println("Cluster : " + i + "      Rating : " + rating_cluster)
+  }
 
   val _tmpHist = cl_df_
     .select($"ratings" cast "double")
