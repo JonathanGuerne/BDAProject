@@ -100,7 +100,7 @@ Ci-dessous, l'histogramme des notes des données d'entraînement, on remarque qu
 
 Comme le projet est très exploratoir, qu'on ne sait pas exactement à quels résultats s'attendre, on a décider de tester le plus de modèles possibles et de les comparer.Pour rendre plus efficace la mise en place de tous ces modèles on utilise les piplines de spark-ml qui va nous permettre de préparer de façon structuré la mise en place de chaque modèle y compris ses hypers paramètres. 
 
-Les modèles comparés sont les suivants, ils représentent la quasi-totalité des modèles de regressions disponible avec spark-ml. La performance de chacun des modèles a été déterminer en utilisant la mse, la *mean squared error*.
+Les modèles comparés sont les suivants, ils représentent la quasi-totalité des modèles de regressions disponible avec spark-ml. La performance de chacun des modèles a été déterminer en utilisant plusieurs métriques.
 
 | Model name                       |MSE |MAE|
 |----------------------------------|-|-|
