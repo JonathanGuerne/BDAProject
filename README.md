@@ -237,14 +237,14 @@ Comme le projet est très exploratoire, qu'on ne sait pas exactement à quels r�
 
 Les modèles comparés sont les suivants, ils représentent la quasi-totalité des modèles de regressions disponible avec spark-ml. La performance de chacun des modèles a été déterminée en utilisant la mse - *mean squared error*, la rmse - *root mean square error*, la mae - *mean absolute error*, la r2 *le coefficient de détermination non ajusté*. 
 
-| Model name                       |MSE|RMSE|MAE|
-|----------------------------------|-|-|-|
-| Linear Regression                |1.40|1.18|0.92|
-| Generalized Linear Regression    |1.40|1.18|0.92|
-| Decision Tree Regression         |1.34|1.15|0.89|
-| Random Forest Regression         |1.29|1.13|0.87|
-| Isotonic Regression              |1.81|1.37|1.01|
-| Gradient Boosted Tree Regression |-|-|0.88|
+| Model name                       |MSE|RMSE|MAE|r2|
+|----------------------------------|-|-|-|-|
+| Linear Regression                |1.40|1.18|0.92|0.15|
+| Generalized Linear Regression    |1.40|1.18|0.92|0.15|
+| Decision Tree Regression         |1.34|1.15|0.89|0.18|
+| Random Forest Regression         |1.29|1.13|0.87|0.22|
+| Isotonic Regression              |1.81|1.37|1.01|-0.13|
+| Gradient Boosted Tree Regression |-|-|0.88|-|
 
 Nous n'avions toutefois pas de moyen de déterminer si les résultats obtenus étaient bons ou non. C'est pour celà qu'on a décidé d'étudier le comportement de différentes métriques avec des valeurs de prédictions arbitraires. Un fois cette étude menée nous serons capables de savoir à quel point notre modèle apporte quelque chose en plus qu'une prédiction aléatoire par exemple.
 
@@ -339,6 +339,8 @@ Avec ces statistiques, on remarque que les clusters ne correspondent pas à une 
 * Les notes les plus représentées sont entre 5 et 7 pour tous les clusters. Et si on observe les histogrammes de chaque cluster, ils ont la même forme que l'histogramme général.
 * Les clusters possède la quasiment la même note minimum et maximum.
 * Les moyennes des clusters sont très proches les une des autres.
+
+ K-Means a été testé avec les 2 mesures de distances proposé par Spark mais dans les 2 cas les résultats sont similaires.
 
 ## Conclusion
 
