@@ -1,3 +1,4 @@
+import DataPreparation.spark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.evaluation.{ClusteringEvaluator, RegressionEvaluator}
@@ -17,9 +18,18 @@ object ModelComparison extends App {
     .appName("Spark MLlib basic example")
     .getOrCreate()
 
+  import spark.implicits._
+
+
+
+  val set_apart_movies = List("tt1213644", "tt0060666", "tt0926129", "tt0111161", "tt0068646", "tt0119217")
+
   //reading data and splitting to train and test
   var features = spark.read.parquet("features_prepared.parquet")
   features.createOrReplaceTempView("features")
+
+  val df_apart_movies = features.filter($"id" isin(set_apart_movies:_*))
+  features = features.filter(!($"id" isin(set_apart_movies:_*)))
 
   var Array(train, test) = features.randomSplit(Array(0.7, 0.3))
 
@@ -31,7 +41,7 @@ object ModelComparison extends App {
   val features_name = Array("isAdult", "titleVec", "directorsVec", "writersVec", "genresVec", "startYearNormalize",
     "durationNormalize")
 
-  val features_r = Array("ratings ~ .", "ratings ~ .")
+  val features_r = Array("ratings ~ .")
 
   val label_name = "ratings"
 
@@ -86,7 +96,8 @@ object ModelComparison extends App {
   //training
   val params_glr = new ParamGridBuilder()
     .addGrid(rForm_glr.formula, features_r)
-    .addGrid(glr.family, Array("Gaussian", "Poisson"))
+    .addGrid(glr.family, Array("Gaussian", "Poisson", "Gamma"))
+    .addGrid(glr.link, Array("Identity","Log"))
     .addGrid(glr.regParam, Array(0.1, 2.0))
     .build()
 
@@ -177,8 +188,8 @@ object ModelComparison extends App {
       .setEstimator(el._3)
       .setEvaluator(evaluator)
       .setEstimatorParamMaps(el._2)
-      .setNumFolds(10)  // WARNING 10 fold make training time very long
-      .setParallelism(5)  // Evaluate up to 5 parameter settings in parallel
+      .setNumFolds(3)  // WARNING 10 fold make training time very long
+      .setParallelism(3)  // Evaluate up to 5 parameter settings in parallel
 
     // Run cross-validation, and choose the best set of parameters.
     val cvModel = cv.fit(train)
@@ -200,6 +211,9 @@ object ModelComparison extends App {
     val result = evaluator.evaluate(testTransformed)
 
     println(el._1 + " evaluation result : " + result)
+
+    val apartMoviesPreds = cvModel.transform(df_apart_movies)
+    apartMoviesPreds.select("id","ratings","prediction").show(false)
 
 //    testTransformed.select("prediction").write.option("header",true).csv("prediction.csv")
 
